@@ -7,7 +7,7 @@ pueda retomar el trabajo sin adivinar.
 - Curso: Desarrollo de Aplicaciones para Dispositivos Móviles
 - Proyecto: DogApp — Agenda de citas para mascotas (Miniproyecto 1, Sprint 1)
 - Repositorio: https://github.com/DogApp-Univalle/DogApp
-- Última actualización: **2026-11-12 18:51**
+- Última actualización: **2026-11-12 19:20**
 
 > Este archivo es de trabajo, no reemplaza al enunciado oficial
 > (`documentacion/HU_miniproyectoDogApp_Pro1.pdf`). Si hay conflicto, gana el PDF.
@@ -235,3 +235,5 @@ Probar en el emulador destapó cuatro cosas que no se ven compilando:
   y prueba en modo avión.
 - Se corrigieron los hallazgos de la sección 6.1.
 - Se guardaron las capturas en `documentacion/capturas/`.
+- Primer push a `main` (commit `feat(dogapp): proyecto base...`), unido con el
+  `Initial commit` del repositorio remoto.
