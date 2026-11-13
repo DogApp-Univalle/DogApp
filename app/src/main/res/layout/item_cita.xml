@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HU 2.0 criterio 3: item blanco redondeado con elevacion, avatar circular, nombre, sintoma y turno -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardCita"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_8"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/radius_card_16"
+    app:cardElevation="@dimen/elevation_card_1">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_12">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivMascota"
+            android:layout_width="@dimen/avatar_52"
+            android:layout_height="@dimen/avatar_52"
+            android:background="@color/soft_gray"
+            android:contentDescription="@string/cd_mascota"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_dog_placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.DogApp.Circle" />
+
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_12"
+            android:layout_marginEnd="@dimen/spacing_8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/ink"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tvTurno"
+            app:layout_constraintStart_toEndOf="@id/ivMascota"
+            app:layout_constraintTop_toTopOf="@id/ivMascota"
+            tools:text="Ramona" />
+
+        <TextView
+            android:id="@+id/tvSintoma"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_12"
+            android:layout_marginTop="@dimen/spacing_4"
+            android:layout_marginEnd="@dimen/spacing_8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/hint_gray"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/tvTurno"
+            app:layout_constraintStart_toEndOf="@id/ivMascota"
+            app:layout_constraintTop_toBottomOf="@id/tvNombre"
+            tools:text="Solo duerme" />
+
+        <TextView
+            android:id="@+id/tvTurno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dogapp_pink"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="#12" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sistema de diseno DogApp (seccion 6 de la especificacion) -->
+    <color name="dogapp_pink">#F05861</color>
+    <color name="dogapp_pink_dark">#C9353F</color>
+    <color name="dogapp_pink_disabled">#F5A9AD</color>
+    <color name="dogapp_dark">#2E2E33</color>
+    <color name="dogapp_field_focus">#6D3FCB</color>
+    <color name="dogapp_edit_blue">#2B2B6B</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="ink">#212121</color>
+    <color name="hint_gray">#9E9E9E</color>
+    <color name="line_gray">#E3E6EA</color>
+    <color name="soft_gray">#F5F6F8</color>
+</resources>

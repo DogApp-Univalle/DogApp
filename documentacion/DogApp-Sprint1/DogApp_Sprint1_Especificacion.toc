@@ -1,0 +1,44 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Qu\'e se construye, en una p\'agina}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Las cinco pantallas}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Las siete capacidades t\'ecnicas que exige la r\'ubrica}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}La r\'ubrica manda: c\'omo se reparte la nota}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}La nota individual multiplica (no promedia)}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Penalizaciones expl\'icitas}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Mapa: de la r\'ubrica al artefacto concreto}{5}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Arquitectura obligatoria: MVVM + Repository}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}El flujo que hay que poder dibujar en el tablero}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Reglas de oro que el jurado verifica}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Paquetes y clases que se deben crear}{7}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Modelo de datos y persistencia con Room}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}La entidad}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}DAO: las cinco operaciones del sprint}{8}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Base de datos y Repository}{9}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Consumo de API REST con Retrofit}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Configuraci\'on de Retrofit}{11}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Reglas de consumo que evitan perder puntos}{11}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Sistema de dise\~no extra\'ido de los pantallazos}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Tokens de color}{12}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Formas, elevaciones y tipograf\'ia}{12}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Fuentes}{13}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Archivos de recursos a crear}{13}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Especificaci\'on pantalla por pantalla}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}HU 1.0 --- Ventana Login}{13}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}HU 2.0 --- Home Administrador de Citas}{15}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}HU 3.0 --- Ventana Nueva Cita}{16}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}HU 4.0 --- Ventana Detalle de la Cita}{17}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}HU 5.0 --- Ventana Editar Cita}{19}{subsection.7.5}%
+\contentsline {section}{\numberline {8}Navegaci\'on: un solo Activity, cinco Fragments}{19}{section.8}%
+\contentsline {section}{\numberline {9}Jira y GitHub: el 20\,\% que suele perderse por descuido}{20}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Jira: c\'omo reflejar los criterios}{20}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}GitHub: reglas del repositorio}{21}{subsection.9.2}%
+\contentsline {section}{\numberline {10}Plan de ejecuci\'on del sprint}{22}{section.10}%
+\contentsline {section}{\numberline {11}Errores que cuestan nota (y su ant\'idoto)}{23}{section.11}%
+\contentsline {section}{\numberline {12}Checklist de aceptaci\'on}{23}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Arquitectura (RA-1, 60\,\%)}{24}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}Interfaz (RA-2, 20\,\%)}{24}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Funcionamiento y gesti\'on (RA-1 funcional + RA-3)}{25}{subsection.12.3}%
+\contentsline {section}{\numberline {13}Entrega y sustentaci\'on}{25}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Guion sugerido de sustentaci\'on (10--12 minutos)}{25}{subsection.13.1}%
+\contentsline {section}{\numberline {14}Anexo A: dependencias de \texttt {\small build.gradle.\allowbreak {}kts}}{27}{section.14}%
+\contentsline {section}{\numberline {15}Anexo B: c\'odigo m\'inimo de las tres piezas delicadas}{28}{section.15}%

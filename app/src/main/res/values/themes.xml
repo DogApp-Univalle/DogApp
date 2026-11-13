@@ -1,0 +1,44 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Tema unico de la app: sin ActionBar, la barra es un MaterialToolbar por pantalla -->
+    <style name="Theme.DogApp" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/dogapp_pink</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/dogapp_edit_blue</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/dogapp_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <!-- Las tarjetas deben ser blancas: sin el tinte de elevacion de Material 3
+             (que las coloreaba de rosa con el colorPrimary) -->
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <!-- Campo de texto: borde gris 1dp y morado 2dp con el foco (HU 3.0 criterio 2) -->
+    <style name="Widget.DogApp.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/til_stroke</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="android:textColorHint">@color/hint_gray</item>
+        <item name="hintTextColor">@color/hint_gray</item>
+    </style>
+
+    <!-- Titulo de las toolbars: blanco bold centrado -->
+    <style name="DogAppToolbarTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Avatar circular de la mascota (HU 2.0 criterio 3) -->
+    <style name="ShapeAppearanceOverlay.DogApp.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

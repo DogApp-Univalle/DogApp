@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacing_4">4dp</dimen>
+    <dimen name="spacing_8">8dp</dimen>
+    <dimen name="spacing_12">12dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_20">20dp</dimen>
+    <dimen name="spacing_24">24dp</dimen>
+    <dimen name="spacing_32">32dp</dimen>
+
+    <dimen name="radius_card_16">16dp</dimen>
+    <dimen name="radius_toolbar_28">28dp</dimen>
+    <dimen name="radius_header_48">48dp</dimen>
+    <dimen name="radius_button_24">24dp</dimen>
+
+    <dimen name="elevation_card_1">4dp</dimen>
+    <dimen name="elevation_card_2">8dp</dimen>
+    <dimen name="avatar_52">52dp</dimen>
+    <dimen name="fab_56">56dp</dimen>
+    <dimen name="header_home_height">132dp</dimen>
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="detalle_solape">32dp</dimen>
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">dogApp</string>
+
+    <!-- HU 1.0 Login -->
+    <string name="login_titulo">Autenticación con Biometría</string>
+    <string name="login_subtitulo">Ingrese su huella digital</string>
+    <string name="login_cancelar">Cancelar</string>
+    <string name="login_marca">DogApp</string>
+    <string name="login_sin_huella">Este dispositivo no tiene una huella enrolada. Regístrala en Ajustes &gt; Seguridad.</string>
+    <string name="login_error">No se pudo autenticar. Intenta de nuevo.</string>
+    <string name="login_toque_huella">Toca la huella para ingresar</string>
+
+    <!-- HU 2.0 Home -->
+    <string name="home_titulo">Administrador de Citas</string>
+    <string name="home_marca">DogApp</string>
+    <string name="home_crear_cita">Crear cita</string>
+    <string name="home_lista_vacia">Aún no hay citas registradas</string>
+
+    <!-- HU 3.0 Nueva cita / HU 5.0 Editar cita -->
+    <string name="nueva_titulo">Nueva Cita</string>
+    <string name="editar_titulo">Editar Cita</string>
+    <string name="btn_guardar_cita">Guardar Cita</string>
+    <string name="btn_editar_cita">Editar Cita</string>
+
+    <string name="hint_nombre_mascota">Nombre de la Mascota</string>
+    <string name="hint_raza">Raza</string>
+    <string name="hint_propietario">Nombre del Propietario</string>
+    <string name="hint_telefono">Teléfono</string>
+    <string name="hint_sintoma">Síntomas</string>
+    <string name="msg_sin_sintoma">Selecciona un síntoma</string>
+    <string name="msg_raza_invalida">Selecciona una raza de la lista</string>
+
+    <!-- HU 4.0 Detalle -->
+    <string name="detalle_propietario">Propietario: %1$s</string>
+    <string name="detalle_telefono">Teléfono: %1$s</string>
+    <string name="detalle_turno">#%1$d</string>
+    <string name="detalle_eliminar_cita">Eliminar cita</string>
+    <string name="detalle_editar_cita">Editar cita</string>
+
+    <!-- Accesibilidad -->
+    <string name="cd_atras">Atrás</string>
+    <string name="cd_perro">Perro</string>
+    <string name="cd_huella">Huella digital</string>
+    <string name="cd_mascota">Foto de la mascota</string>
+
+    <!-- HU 3.0 criterio 6: lista quemada de sintomas, indice 0 = sin seleccion -->
+    <string-array name="sintomas">
+        <item>Síntomas</item>
+        <item>Solo duerme</item>
+        <item>No come</item>
+        <item>Fractura extremidad</item>
+        <item>Tiene pulgas</item>
+        <item>Tiene garrapatas</item>
+        <item>Bota demasiado pelo</item>
+    </string-array>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HU 2.0 criterio 2: header gris oscuro con la esquina inferior izquierda curvada -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/dogapp_dark" />
+    <corners
+        android:bottomLeftRadius="48dp"
+        android:bottomRightRadius="0dp" />
+</shape>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Una sola Activity, cinco Fragments y trazas de navegacion explicitas -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <!-- HU 1.0 -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.univalle.dogapp.view.login.LoginFragment"
+        android:label="@string/login_titulo"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- HU 2.0 -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.univalle.dogapp.view.home.HomeFragment"
+        android:label="@string/home_titulo"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_to_nueva"
+            app:destination="@id/nuevaCitaFragment" />
+
+        <action
+            android:id="@+id/action_home_to_detalle"
+            app:destination="@id/detalleFragment" />
+    </fragment>
+
+    <!-- HU 3.0 -->
+    <fragment
+        android:id="@+id/nuevaCitaFragment"
+        android:name="com.univalle.dogapp.view.nueva.NuevaCitaFragment"
+        android:label="@string/nueva_titulo"
+        tools:layout="@layout/fragment_nueva_cita">
+
+        <action
+            android:id="@+id/action_nueva_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <!-- HU 4.0 -->
+    <fragment
+        android:id="@+id/detalleFragment"
+        android:name="com.univalle.dogapp.view.detalle.DetalleFragment"
+        android:label="@string/home_titulo"
+        tools:layout="@layout/fragment_detalle">
+
+        <argument
+            android:name="citaId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_detalle_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_detalle_to_editar"
+            app:destination="@id/editarFragment" />
+    </fragment>
+
+    <!-- HU 5.0 -->
+    <fragment
+        android:id="@+id/editarFragment"
+        android:name="com.univalle.dogapp.view.editar.EditarFragment"
+        android:label="@string/editar_titulo"
+        tools:layout="@layout/fragment_editar">
+
+        <argument
+            android:name="citaId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_editar_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+</navigation>

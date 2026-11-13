@@ -1,0 +1,1464 @@
+% ============================================================================
+%  DogApp -- Miniproyecto 1 (Sprint 1)
+%  Documento de especificacion tecnica de construccion derivado de las HU
+%  y de la rubrica de evaluacion del curso
+%  Curso: Desarrollo de Aplicaciones para Dispositivos Moviles
+%  Compilar con: latexmk -pdf  (o pdflatex dos veces)
+% ============================================================================
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[spanish,es-tabla,es-noshorthands]{babel}
+
+\usepackage[letterpaper,margin=2.3cm,top=2.6cm,bottom=2.5cm,headsep=0.55cm,footskip=1.0cm]{geometry}
+\usepackage{microtype}
+\usepackage{needspace}
+
+\usepackage[table,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xltabular}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes.misc,calc,arrows.meta}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
+
+% ---------------------------- Paleta DogApp --------------------------------
+\definecolor{pink}{HTML}{F05861}
+\definecolor{pinkdk}{HTML}{C9353F}
+\definecolor{dark}{HTML}{2E2E33}
+\definecolor{ink}{HTML}{1F2226}
+\definecolor{muted}{HTML}{6B7280}
+\definecolor{violet}{HTML}{6D3FCB}
+\definecolor{okgreen}{HTML}{15803D}
+\definecolor{badred}{HTML}{B91C1C}
+\definecolor{amberx}{HTML}{B45309}
+\definecolor{soft}{HTML}{FDF2F3}
+\definecolor{softgray}{HTML}{F5F6F8}
+\definecolor{linegray}{HTML}{D9DDE4}
+
+\hypersetup{
+  pdftitle={DogApp Sprint 1 - Especificacion de construccion},
+  pdfauthor={Equipo DogApp - Desarrollo de Aplicaciones para Dispositivos Moviles},
+  pdfsubject={Especificacion tecnica derivada de las Historias de Usuario y la rubrica},
+  pdfkeywords={DogApp, MVVM, Room, Retrofit, Jira, Android, Sprint 1}
+}
+
+% ---------------------------- Estilo ---------------------------------------
+\titleformat{\section}
+  {\sffamily\Large\bfseries\color{pinkdk}}{\thesection}{0.7em}{}
+  [\vspace{-0.5em}\color{pink}\rule{\linewidth}{1pt}]
+\titleformat{\subsection}
+  {\sffamily\large\bfseries\color{ink}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}
+  {\sffamily\normalsize\bfseries\color{violet}}{\thesubsubsection}{0.5em}{}
+\titlespacing{\section}{0pt}{1.5em}{0.7em}
+\titlespacing{\subsection}{0pt}{1.0em}{0.4em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{linegray}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\footnotesize\sffamily\color{muted}DogApp $\cdot$ Sprint 1}
+\fancyhead[R]{\footnotesize\sffamily\color{muted}Especificaci\'on de construcci\'on}
+\fancyfoot[C]{\footnotesize\sffamily\color{muted}\thepage}
+
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+
+\newcommand{\hex}[1]{\texttt{\##1}}
+\newcommand{\code}[1]{\texttt{\small #1}}
+\newcommand{\ok}{\textcolor{okgreen}{\ding{51}}}
+\newcommand{\no}{\textcolor{badred}{\ding{55}}}
+\newcommand{\warn}{\textcolor{amberx}{\ding{43}}}
+
+% cajas reutilizables
+\newtcolorbox{notabox}[1][]{
+  colback=soft, colframe=pink, boxrule=0.6pt, arc=3pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\sffamily\bfseries\small, title=#1
+}
+\newtcolorbox{techbox}[1][]{
+  colback=softgray, colframe=linegray, boxrule=0.5pt, arc=3pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\sffamily\bfseries\small\color{ink}, title=#1
+}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=l,
+  framesep=6pt,
+  rulecolor=\color{linegray},
+  backgroundcolor=\color{softgray},
+  xleftmargin=10pt,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  commentstyle=\color{muted}\itshape,
+  keywordstyle=\color{violet}\bfseries,
+  stringstyle=\color{pinkdk},
+}
+
+\renewcommand{\arraystretch}{1.25}
+\renewcommand{\tabularxcolumn}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+
+% ================================ PORTADA ==================================
+\begin{titlepage}
+\centering
+\vspace*{0.6cm}
+
+\begin{tikzpicture}[scale=1]
+  \fill[dark, rounded corners=10pt] (0,0) rectangle (6.2,1.9);
+  \node[white, font=\sffamily\bfseries\Large] at (3.1,1.05) {DogApp};
+  \node[white, font=\sffamily\footnotesize] at (3.1,0.45) {Agenda de citas para mascotas};
+\end{tikzpicture}
+
+\vspace{1.4cm}
+{\sffamily\color{muted}\large Universidad del Valle}\\[2pt]
+{\sffamily\color{muted}Escuela de Ingenier\'ia de Sistemas y Computaci\'on $\cdot$ Sede Cali}\\[1.4cm]
+
+{\sffamily\bfseries\Huge\color{dark} Documento de construcci\'on}\\[6pt]
+{\sffamily\bfseries\Large\color{pinkdk} Miniproyecto 1 --- Sprint 1}\\[1.2cm]
+
+{\large\itshape Qu\'e hay que construir, c\'omo, y c\'omo se gana cada d\'ecima\\
+de la r\'ubrica de evaluaci\'on}
+
+\vfill
+
+\begin{tabularx}{0.86\linewidth}{@{}>{\sffamily\bfseries\color{muted}}l X@{}}
+\toprule
+Curso & Desarrollo de Aplicaciones para Dispositivos M\'oviles\\
+Docente & Ing. Walter Medina\\
+Proyecto & DogApp --- Agenda de citas para mascotas (5 Historias de Usuario)\\
+Alcance & Sprint 1: HU 1.0 a HU 5.0 + r\'ubrica RA-1, RA-2, RA-3\\
+Sprint & 11 de noviembre $\to$ 25 de noviembre de 2026, 6:30 p.m.\\
+Monitor\'ia & 18 de noviembre de 2026\\
+Entregable & PDF \code{equipoUno.\allowbreak{}pdf} (o el nombre del equipo) + repositorio + Jira\\
+\bottomrule
+\end{tabularx}
+
+\vspace{1.2cm}
+{\footnotesize\sffamily\color{muted}
+Documento de trabajo del equipo. Elaborado a partir del enunciado oficial de las\\
+Historias de Usuario y de la tabla de evaluaci\'on del Miniproyecto 1.}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================ 1. RESUMEN ===================================
+\section{Qu\'e se construye, en una p\'agina}
+
+DogApp es una aplicaci\'on Android nativa para que el administrador de una
+veterinaria registre y gestione las citas de las mascotas que debe atender.
+El Sprint 1 entrega \textbf{cinco pantallas} y \textbf{siete capacidades
+t\'ecnicas obligatorias}.
+
+\subsection{Las cinco pantallas}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item \textbf{Login (HU 1.0):} pantalla de bienvenida oscura con la marca
+        DogApp y una huella animada; al tocarla se abre la autenticaci\'on
+        biom\'etrica del dispositivo y, si el dedo es reconocido, se entra a la
+        aplicaci\'on.
+  \item \textbf{Home Administrador de Citas (HU 2.0):} lista de citas guardadas en
+        una base de datos local, cada una con foto circular de la mascota,
+        nombre, s\'intoma y turno; bot\'on flotante rosado para crear una cita.
+  \item \textbf{Nueva Cita (HU 3.0):} formulario con cuatro campos validados y una
+        lista de s\'intomas; el bot\'on Guardar solo se habilita cuando todo
+        est\'a completo.
+  \item \textbf{Detalle de la Cita (HU 4.0):} ficha del paciente con dos tarjetas
+        superpuestas y dos botones flotantes: eliminar (rosado) y editar
+        (azul oscuro).
+  \item \textbf{Editar Cita (HU 5.0):} el mismo formulario, precargado, que
+        actualiza el registro y regenera la foto seg\'un la nueva raza.
+\end{enumerate}
+
+\subsection{Las siete capacidades t\'ecnicas que exige la r\'ubrica}
+
+La tabla de evaluaci\'on del enunciado lista exactamente estos siete items dentro
+del RA-1 (60\,\%). Si falta uno, se pierde la fracci\'on correspondiente de ese
+60\,\%:
+
+\begin{center}
+\begin{xltabular}{\linewidth}{@{}c X c@{}}
+\toprule
+\textbf{\#} & \textbf{Capacidad} & \textbf{D\'onde se evidencia}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+1 & Arquitectura MVVM \textbf{con Repository} & Paquetes \code{model}, \code{view}, \code{viewmodel}, \code{repository}, \code{data}\\
+2 & Funcionamiento seg\'un las Historias de Usuario & Las 5 pantallas y sus criterios\\
+3 & Base de datos SQLite con \textbf{Room} & Entidad, DAO, Database, Repository\\
+4 & Consumo de API REST & Retrofit contra \code{dog.ceo}\\
+5 & Uso de \textbf{Fragments} & 5 fragments, no 5 Activities\\
+6 & Uso de \textbf{Navigation} & \code{nav\_graph.\allowbreak{}xml} con acciones y argumentos\\
+7 & Interfaz id\'entica a los pantallazos (RA-2) & Sistema de dise\~no de la secci\'on~\ref{sec:diseno}\\
+\end{xltabular}
+\end{center}
+
+\begin{notabox}[Fuera de alcance del Sprint 1 --- no lo construyas]
+No hay autenticaci\'on con usuario y contrase\~na, ni registro, ni roles, ni
+recuperaci\'on de clave. No hay notificaciones, ni calendario, ni recordatorios,
+ni historial cl\'inico, ni sincronizaci\'on en la nube. No hay pantalla de
+configuraci\'on. La autenticaci\'on es \emph{exclusivamente} biom\'etrica
+dactilar, y la persistencia es \emph{exclusivamente} local con Room.
+Invertir tiempo aqu\'i no suma nota y resta tiempo al sprint.
+\end{notabox}
+
+% ============================ 2. RUBRICA ===================================
+\section{La r\'ubrica manda: c\'omo se reparte la nota}
+\label{sec:rubrica}
+
+La nota del equipo \textbf{no depende de que la app se vea bonita}: depende de
+que cada item de la tabla se pueda demostrar en la sustentaci\'on. Esta es la
+distribuci\'on textual del enunciado.
+
+\begin{center}
+\begin{xltabular}{\linewidth}{@{}>{\raggedright\arraybackslash}p{5.7cm} c >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{RA} & \textbf{\%} & \textbf{Items a calificar}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\rowcolor{softgray}
+RA-1. Implementa aplicaciones nativas para una plataforma m\'ovil & \textbf{60} &
+Uso de arquitectura MVVM (con Repository) $\cdot$ Funcionamiento de la app como se
+indica en las HU $\cdot$ Uso de base de datos SQLite con Room $\cdot$ Consumo de
+API REST $\cdot$ Uso de Fragment $\cdot$ Uso de Navigation\\
+RA-2. Usa principios de Dise\~no de Experiencia y de Interacci\'on & \textbf{20} &
+Interfaz de la app como se indica en las Historias de Usuario\\
+\rowcolor{softgray}
+RA-3. Emplea gesti\'on de proyectos y control de versi\'on & \textbf{20} &
+Gesti\'on de las tareas (criterios) de las HU en Jira: ``Por hacer, en curso,
+hecho'' $\cdot$ Uso de GitHub donde se evidencie activamente el trabajo en
+equipo durante el sprint\\
+\midrule
+\multicolumn{2}{@{}r}{\textbf{Nota equipo}} & \textbf{100\,\%}\\
+\end{xltabular}
+\end{center}
+
+\subsection{La nota individual multiplica (no promedia)}
+
+\begin{tcolorbox}[colback=soft,colframe=pink,boxrule=0.6pt,arc=3pt]
+\centering\sffamily
+\textbf{Nota definitiva del estudiante} $=$ \textbf{Nota equipo} $\times$ \textbf{Nota individual}\\[3pt]
+{\footnotesize\color{muted}Ejemplo del enunciado: equipo 5 $\times$ individual 0,8 $=$ \textbf{4,0}}
+\end{tcolorbox}
+
+La nota individual va de 0 a 1 y el docente la obtiene de
+\emph{``corroborar que cada uno de los integrantes particip\'o activamente''}.
+En la pr\'actica eso se lee en tres lugares, y por eso el RA-3 no es tr\'amite:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Commits de GitHub con el nombre de cada integrante} (autor\'ia real,
+        no un solo compa\~nero subiendo todo).
+  \item \textbf{Movimiento de tarjetas en Jira} con responsable asignado.
+  \item \textbf{Capacidad de cada uno de explicar y modificar su parte en vivo}
+        durante la sustentaci\'on.
+\end{itemize}
+
+\noindent Un equipo con la app perfecta donde solo dos personas tienen commits
+puede terminar con notas individuales de 0,5 para el resto. \textbf{El reparto de
+tareas es parte del dise\~no t\'ecnico, no un adorno.}
+
+\subsection{Penalizaciones expl\'icitas}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}X c@{}}
+\toprule
+\textbf{Situaci\'on} & \textbf{Efecto}\\
+\midrule
+No encender la c\'amara durante la sustentaci\'on & $-0{,}5$ en la nota final\\
+Commit despu\'es de la fecha y hora de entrega & $-0{,}2$ en la nota final\\
+Cualquier indicio de copia & Sanciones de los estatutos de la Universidad\\
+Presentar de forma individual (la presentaci\'on es en equipo) & No admitido\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Mapa: de la r\'ubrica al artefacto concreto}
+
+Esta es la tabla que conviene tener abierta mientras se trabaja. Cada fila es un
+item calificable y el artefacto exacto que lo demuestra.
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l l X@{}}
+\toprule
+\textbf{RA} & \textbf{Item} & \textbf{Artefacto que lo demuestra}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+RA-1 & MVVM + Repository & Estructura de paquetes + \code{CitaViewModel} observando \code{CitaRepository}; ninguna consulta a Room ni a Retrofit dentro de un Fragment\\
+RA-1 & Funcionamiento HU & Recorrido completo: login $\to$ home $\to$ nueva $\to$ home $\to$ detalle $\to$ editar $\to$ home $\to$ detalle $\to$ borrar\\
+RA-1 & Room & \code{CitaEntity}, \code{CitaDao}, \code{DogAppDatabase} y base persistente tras cerrar la app\\
+RA-1 & API REST & \code{DogApiService} con Retrofit: lista de razas y foto por raza\\
+RA-1 & Fragment & \code{LoginFragment}, \code{HomeFragment}, \code{NuevaCitaFragment}, \code{DetalleFragment}, \code{EditarFragment}\\
+RA-1 & Navigation & \code{res/navigation/\allowbreak{}nav\_graph.\allowbreak{}xml} con 5 destinos, 6--8 acciones y argumento \code{citaId}\\
+RA-2 & Interfaz & Comparaci\'on lado a lado con los 7 pantallazos del enunciado\\
+RA-3 & Jira & Tablero con columnas Por hacer / En curso / Hecho e historias movi\'endose durante 2 semanas\\
+RA-3 & GitHub & Repositorio \code{equipoUno}, ramas por HU, Pull Requests y commits de todos\\
+\end{xltabular}
+\end{center}
+
+% ============================ 3. ARQUITECTURA ==============================
+\section{Arquitectura obligatoria: MVVM + Repository}
+\label{sec:mvvm}
+
+Las diapositivas de la clase 9 fijan la definici\'on que el docente va a usar como
+vara: \emph{Model} (datos, sin conocer la interfaz), \emph{View} (Activity o
+Fragment, solo l\'ogica de interfaz), \emph{ViewModel} (conecta Model con View por
+medio de LiveData y maneja la l\'ogica) y \emph{Repository} (puente entre las
+fuentes de datos y el ViewModel). Sobre eso, la r\'ubrica agrega dos capacidades
+observables: Room para SQLite y Retrofit para la API.
+
+\subsection{El flujo que hay que poder dibujar en el tablero}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=0.75cm,
+  box/.style={draw=linegray,fill=white,rounded corners=4pt,minimum height=0.85cm,
+              align=center,font=\sffamily\footnotesize,inner sep=4pt,thick},
+  core/.style={box,fill=soft,draw=pink},
+  arr/.style={-{Stealth[length=2mm]},line width=0.7pt,draw=ink}
+]
+\node[core,text width=6.2cm] (view)
+  {\textbf{VIEW} --- Fragments + XML\\Login $\cdot$ Home $\cdot$ Nueva $\cdot$ Detalle $\cdot$ Editar};
+\node[box,text width=6.2cm,below=of view] (vm)
+  {\textbf{VIEWMODEL} --- \code{LiveData}, \code{viewModelScope}\\l\'ogica de validaci\'on y de pantalla};
+\node[core,text width=6.2cm,below=of vm] (repo)
+  {\textbf{REPOSITORY} --- \code{CitaRepository}\\\'unica puerta de entrada a los datos};
+\node[box,text width=2.85cm,below=1.0cm of repo.south west,anchor=north west] (room)
+  {\textbf{ROOM}\\SQLite local\\\code{CitaDao}};
+\node[box,text width=2.85cm,below=1.0cm of repo.south east,anchor=north east] (api)
+  {\textbf{RETROFIT}\\API dog.ceo\\razas + fotos};
+
+\draw[arr] (view) -- node[right,font=\sffamily\scriptsize,color=muted]{observa LiveData} (vm);
+\draw[arr] ([xshift=-1.2cm]vm.south) -- node[left,font=\sffamily\scriptsize,color=muted]{pide datos} ([xshift=-1.2cm]repo.north);
+\draw[arr] ([xshift=1.2cm]repo.north) -- node[right,font=\sffamily\scriptsize,color=muted]{entrega} ([xshift=1.2cm]vm.south);
+\draw[arr] (repo.south) ++(-1.4,0) -- (room.north);
+\draw[arr] (repo.south) ++(1.4,0) -- (api.north);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Reglas de oro que el jurado verifica}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=3pt]
+  \item \textbf{Ning\'un Fragment toca Room ni Retrofit.} Ni un \code{findViewById}
+        de base de datos, ni un \code{Call} de Retrofit dentro de la vista. Todo
+        pasa por el ViewModel y \'este por el Repository.
+  \item \textbf{Ning\'un ViewModel conoce \code{Context}, \code{View} ni
+        \code{Activity}.} Si aparece \code{Toast} dentro de un ViewModel, ya hay
+        una fuga de capa.
+  \item \textbf{Toda la UI se actualiza observando \code{LiveData}} (o
+        \code{StateFlow} si el equipo domina corrutinas; el enunciado de la clase
+        habla de LiveData, as\'i que LiveData es la apuesta segura).
+  \item \textbf{Las operaciones de base de datos son \code{suspend}} y se invocan
+        con \code{viewModelScope.\allowbreak{}launch}.
+  \item \textbf{El Repository es la \'unica fuente de verdad.}
+  \item \textbf{Una sola Activity} (\code{MainActivity}) con un
+        \code{NavHostFragment}; las cinco pantallas son Fragments.
+\end{enumerate}
+
+\begin{notabox}[Se\~nal de alarma para la nota de arquitectura]
+Si el profesor pide ``mu\'estrame el ViewModel de Nueva Cita'' y lo que aparece es
+un Fragment de 300 l\'ineas con \code{db.citaDao(\allowbreak{}).insert(\allowbreak{}...)}, el item MVVM
+vale cero aunque la app funcione. La app tiene que funcionar \emph{y} estar
+partida en capas.
+\end{notabox}
+
+\newpage
+
+\subsection{Paquetes y clases que se deben crear}
+
+\begin{verbatim}
+com.univalle.dogapp
+|-- data/
+|   |-- local/
+|   |   |-- CitaEntity.kt          @Entity(tableName = "citas")
+|   |   |-- CitaDao.kt             @Dao
+|   |   `-- DogAppDatabase.kt      @Database(entities=[CitaEntity::class], version=1)
+|   `-- remote/
+|       |-- DogApiService.kt       @GET breeds/list/all, breed/{raza}/images/random
+|       |-- BreedsResponse.kt      data class (message: Map<String, List<String>>)
+|       `-- ImageResponse.kt       data class (message: String, status: String)
+|-- repository/
+|   `-- CitaRepository.kt          une DAO + API + Glide
+|-- model/
+|   `-- Cita.kt                    modelo de dominio / UI
+|-- viewmodel/
+|   |-- LoginViewModel.kt          estado de autenticacion
+|   |-- HomeViewModel.kt           LiveData<List<Cita>>
+|   |-- FormCitaViewModel.kt       crea y edita + razas + foto
+|   `-- DetalleViewModel.kt        LiveData<Cita?> + eliminar
+|-- view/
+|   |-- MainActivity.kt            host del NavHostFragment
+|   |-- login/LoginFragment.kt
+|   |-- home/HomeFragment.kt  +  CitaAdapter.kt  +  CitaViewHolder.kt
+|   |-- nueva/NuevaCitaFragment.kt
+|   |-- detalle/DetalleFragment.kt
+|   `-- editar/EditarFragment.kt
+`-- utils/
+    |-- Constants.kt               BASE_URL, nombres de argumentos
+    `-- BiometricHelper.kt         envoltorio de BiometricPrompt
+\end{verbatim}
+
+\begin{techbox}[Atajo leg\'itimo: el proyecto de la clase 8]
+El proyecto \code{clase8\_univalle} que acompa\~na el curso tiene \emph{exactamente}
+la misma arquitectura que pide este miniproyecto, pero con un inventario:
+\code{InventoryDao}, \code{InventoryDB}, \code{InventoryRepository},
+\code{InventoryViewModel}, cuatro Fragments (Home, Add, Details, Edit),
+\code{nav\_graph.\allowbreak{}xml}, RecyclerView con adapter y viewholder, y Room 2.5.2 con KSP.
+Sirve como \textbf{esqueleto de referencia del docente}: renombrar a
+\code{Cita}, cambiar el modelo de datos, a\~nadir Retrofit y la biometr\'ia, y
+rehacer por completo la interfaz. Usar material del curso no es copia; copiar
+el repositorio de otro equipo s\'i lo es.
+\end{techbox}
+
+% ============================ 4. ROOM ======================================
+\section{Modelo de datos y persistencia con Room}
+\label{sec:room}
+
+\subsection{La entidad}
+
+El enunciado pide cinco datos m\'as el turno. El turno \textbf{es el ID
+autogenerado} de la base de datos, y la foto depende de la raza, as\'i que hay
+que guardar tambi\'en la URL de la imagen.
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l l X l@{}}
+\toprule
+\textbf{Campo} & \textbf{Tipo} & \textbf{Regla del enunciado} & \textbf{Nulo}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\code{id} & \code{Int} & \code{@PrimaryKey(\allowbreak{}autoGenerate =\allowbreak{} true)}. Es el \textbf{turno} que se pinta como \code{\#1}, \code{\#2}\ldots\ en el Home y en el Detalle & \no\\
+\code{nombreMascota} & \code{String} & Obligatorio, m\'aximo 15 caracteres & \no\\
+\code{raza} & \code{String} & Obligatorio; se elige del autocompletado de razas & \no\\
+\code{propietario} & \code{String} & Obligatorio, m\'aximo 30 caracteres & \no\\
+\code{telefono} & \code{String} & Obligatorio, solo d\'igitos, m\'aximo 10 & \no\\
+\code{sintoma} & \code{String} & Uno de los seis s\'intomas de la lista & \no\\
+\code{imagenUrl} & \code{String?} & URL que devuelve la API para esa raza & s\'i\\
+\code{fechaCreacion} & \code{Long} & \code{System.\allowbreak{}currentTimeMillis(\allowbreak{})}; desempata el orden & \no\\
+\end{xltabular}
+\end{center}
+
+\begin{notabox}[Dos decisiones que evitan bugs cl\'asicos]
+\textbf{(a)} Guarda \code{telefono} como \code{String}, no como \code{Int}:
+si se guarda como entero, un n\'umero que empiece por 0 pierde el cero y un
+tel\'efono con espacios revienta el parseo. \textbf{(b)} Guarda la
+\code{raza} tal como se muestra (``Pug'', ``Pitbull''), pero para llamar a la API
+normaliza en el Repository (\code{raza.trim().lowercase(\allowbreak{})}) porque el endpoint
+espera la clave en min\'usculas. No guardes la clave de la API como texto visible
+del usuario.
+\end{notabox}
+
+\subsection{DAO: las cinco operaciones del sprint}
+
+\begin{verbatim}
+@Dao
+interface CitaDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertar(cita: CitaEntity): Long      // devuelve el turno nuevo
+
+    @Update
+    suspend fun actualizar(cita: CitaEntity)
+
+    @Delete
+    suspend fun eliminar(cita: CitaEntity)
+
+    @Query("SELECT * FROM citas ORDER BY id ASC")
+    fun observarTodas(): LiveData<List<CitaEntity>>   // reactivo para el Home
+
+    @Query("SELECT * FROM citas WHERE id = :id")
+    fun observarPorId(id: Int): LiveData<CitaEntity?> // para Detalle y Editar
+}
+\end{verbatim}
+
+\begin{notabox}[El detalle que rompe la mitad de los proyectos]
+Si \code{observarTodas(\allowbreak{})} devuelve \code{List<CitaEntity>} en lugar de
+\code{LiveData<.\allowbreak{}..>}, la lista del Home \textbf{no se refresca} despu\'es de
+guardar o eliminar, y hay que llamar a mano al m\'etodo cada vez. Con
+\code{LiveData}, la pantalla se actualiza sola y el criterio
+``debe visualizarse la cita guardada'' (HU 3.0 y HU 5.0) se cumple sin c\'odigo
+extra. Es tambi\'en la evidencia de ``LiveData'' de la clase 9.
+\end{notabox}
+
+\subsection{Base de datos y Repository}
+
+\begin{verbatim}
+@Database(entities = [CitaEntity::class], version = 1, exportSchema = false)
+abstract class DogAppDatabase : RoomDatabase() {
+    abstract fun citaDao(): CitaDao
+    companion object {
+        @Volatile private var INSTANCIA: DogAppDatabase? = null
+        fun obtener(context: Context): DogAppDatabase =
+            INSTANCIA ?: synchronized(this) {
+                INSTANCIA ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    DogAppDatabase::class.java, "dogapp.db"
+                ).build().also { INSTANCIA = it }
+            }
+    }
+}
+\end{verbatim}
+
+El \code{CitaRepository} recibe el DAO y el servicio de Retrofit y expone
+funciones de negocio, no de base de datos:
+
+\begin{verbatim}
+class CitaRepository(private val dao: CitaDao, private val api: DogApiService) {
+
+    fun citas(): LiveData<List<CitaEntity>> = dao.observarTodas()
+    fun cita(id: Int): LiveData<CitaEntity?> = dao.observarPorId(id)
+
+    suspend fun guardar(cita: CitaEntity): Long = dao.insertar(cita)
+    suspend fun modificar(cita: CitaEntity) = dao.actualizar(cita)
+    suspend fun borrar(cita: CitaEntity) = dao.eliminar(cita)
+
+    suspend fun razas(): List<String> = withContext(Dispatchers.IO) {
+        api.listarRazas().message.keys
+            .map { it.replaceFirstChar { c -> c.uppercase() } }
+            .sorted()
+    }
+
+    suspend fun fotoDeRaza(raza: String): String? = withContext(Dispatchers.IO) {
+        runCatching { api.fotoPorRaza(raza.trim().lowercase()).message }.getOrNull()
+    }
+}
+\end{verbatim}
+
+\begin{techbox}[Inyecci\'on de dependencias sin frameworks]
+No hace falta Hilt ni Koin. Basta una clase \code{ServiceLocator} (o un
+\code{object AppContainer}) que construya la base de datos, el servicio Retrofit y
+el repository una sola vez, y f\'abricas de ViewModel
+(\code{ViewModelProvider.\allowbreak{}Factory}) que los reciban. La r\'ubrica no pide DI; s\'i
+pide que las capas est\'en separadas.
+\end{techbox}
+
+% ============================ 5. API REST ==================================
+\section{Consumo de API REST con Retrofit}
+\label{sec:api}
+
+La app consume dos servicios p\'ublicos de \code{dog.ceo}; ambos son GET y no
+requieren llave.
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l l X@{}}
+\toprule
+\textbf{Uso} & \textbf{Endpoint} & \textbf{Respuesta}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Lista de razas para el autocompletado &
+\url{https://dog.ceo/api/breeds/list/all} &
+\code{message} es un objeto del tipo \code{\{"raza":\allowbreak{} ["subrazas"]\}}:
+\code{pug} viene con lista vac\'ia y \code{bulldog} con
+\code{["boston",\allowbreak{}"english"]}\\
+Foto de una raza concreta &
+\url{https://dog.ceo/api/breed/}\code{\{raza\}}\url{/images/random} &
+\code{message} trae la URL de una foto de esa raza y \code{status} vale
+\code{"success"}\\
+\end{xltabular}
+\end{center}
+
+\begin{notabox}[\warn\ El enunciado sugiere \code{breeds/\allowbreak{}image/random}: le\'elo con cuidado]
+El texto de la HU 3.0 y HU 5.0 dice que para la foto se debe consumir
+\code{https://dog.ceo/api/breeds/\allowbreak{}image/random}, pero ese endpoint devuelve una
+\textbf{foto de una raza aleatoria}, no de la raza elegida. Y el mismo enunciado
+exige que ``si la raza escogida fue Akita, la imagen debe mostrar un perro alusivo
+a esta raza''. Las dos frases no se cumplen con el mismo endpoint.
+\textbf{Soluci\'on defendible:} usar \code{/breed/\{raza\}/\allowbreak{}images/\allowbreak{}random} para
+cumplir el requisito funcional, y dejar \code{breeds/\allowbreak{}image/random} como
+\emph{fallback} cuando la raza no exista en la API (por ejemplo si el usuario
+escribe una raza a mano) o cuando falle la red. Menci\'onalo en el README y en la
+sustentaci\'on: demuestra criterio, no error.
+\end{notabox}
+
+\subsection{Configuraci\'on de Retrofit}
+
+\begin{verbatim}
+interface DogApiService {
+    @GET("api/breeds/list/all")
+    suspend fun listarRazas(): BreedsResponse
+
+    @GET("api/breed/{raza}/images/random")
+    suspend fun fotoPorRaza(@Path("raza") raza: String): ImageResponse
+
+    @GET("api/breeds/image/random")
+    suspend fun fotoAleatoria(): ImageResponse
+}
+
+object RetrofitClient {
+    private const val BASE_URL = "https://dog.ceo/"
+    val api: DogApiService by lazy {
+        val log = HttpLoggingInterceptor().apply { level = BODY }
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient.Builder().addInterceptor(log).build())
+            .build()
+            .create(DogApiService::class.java)
+    }
+}
+\end{verbatim}
+
+\subsection{Reglas de consumo que evitan perder puntos}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=3pt]
+  \item \textbf{Una sola llamada a la lista de razas por sesi\'on}, no una por
+        tecla. Se carga en el \code{init} del ViewModel, se expone como
+        \code{LiveData<List<String>>} y el adapter filtra en memoria.
+  \item \textbf{El filtro del autocompletado es \code{startsWith}}, no
+        \code{contains}: el criterio dice ``que comiencen por esas letras''.
+        Umbral: 2 caracteres (\code{android:\allowbreak{}completionThreshold=\allowbreak{}"2"}).
+  \item \textbf{Todo en corrutinas}: \code{suspend} + \code{Dispatchers.\allowbreak{}IO}. Nada
+        de red en el hilo principal (NetworkOnMainThreadException en 2 segundos).
+  \item \textbf{Tolera el fallo}: si no hay internet, la app tiene que seguir
+        creando citas con una imagen de marcador. Envuelve con
+        \code{runCatching} y no dejes que una excepci\'on cierre la pantalla.
+  \item \textbf{Rotaci\'on}: un \code{Retrofit} por proceso, no uno por Fragment.
+  \item \textbf{Manifiesto}: \code{<uses-permission android:\allowbreak{}name="android.\allowbreak{}permission.\allowbreak{}INTERNET"/\allowbreak{}>}.
+  \item \textbf{Carga de im\'agenes con Glide} (o Picasso/Coil):
+        \code{Glide.with(view).load(url)} con \code{placeholder(\allowbreak{}R.drawable.\allowbreak{}ic\_dog\_placeholder)} y \code{into(imageView)}
+        evita bloqueos, memoriza y recorta al c\'irculo con
+        \code{circleCrop(\allowbreak{})}.
+\end{enumerate}
+
+% ============================ 6. DISENO ====================================
+\section{Sistema de dise\~no extra\'ido de los pantallazos}
+\label{sec:diseno}
+
+El enunciado advierte que no hay prototipo con medidas exactas y que hay que
+parecerse ``lo m\'as posible'' a los pantallazos. Estos son los valores que se
+leen de las capturas y que hay que centralizar en \code{res/values} para que las
+cinco pantallas queden consistentes (eso es el RA-2).
+
+\subsection{Tokens de color}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l l X@{}}
+\toprule
+\textbf{Token} & \textbf{Valor} & \textbf{Uso}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\code{dogapp\_pink} & \hex{F05861} & Botones Guardar/Editar, FAB de crear, flechas de atr\'as, turno, l\'inea divisoria del detalle, FAB de eliminar\\
+\code{dogapp\_dark} & \hex{2E2E33} & Fondo del login y de todos los headers/toolbars\\
+\code{dogapp\_pink\_disabled} & \hex{F5A9AD} & Estado inactivo del bot\'on Guardar Cita\\
+\code{dogapp\_field\_focus} & \hex{6D3FCB} & Borde del campo cuando tiene el foco (morado)\\
+\code{dogapp\_edit\_blue} & \hex{2B2B6B} & FAB de editar en el detalle\\
+\code{white} & \hex{FFFFFF} & Texto sobre oscuro, fondo de tarjetas, fondo de formularios\\
+\code{hint\_gray} & \hex{9E9E9E} & Hints de los campos y textos secundarios\\
+\code{ink} & \hex{212121} & Nombres, razas y contenido principal\\
+\end{xltabular}
+\end{center}
+
+\subsection{Formas, elevaciones y tipograf\'ia}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l l l X@{}}
+\toprule
+\textbf{Elemento} & \textbf{Radio} & \textbf{Elevaci\'on} & \textbf{Nota}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Header del Home & 48\,dp abajo-izquierda & 4\,dp & Solo la esquina inferior izquierda curvada; la derecha queda recta\\
+Toolbar Nueva/Detalle/Editar & 28\,dp abajo (ambas) & 4\,dp & Esquinas inferiores curvadas, ver pantallazos\\
+Tarjeta de \'item (Home) & 16\,dp & 4\,dp & Fondo blanco sobre fondo blanco: la separaci\'on la da la elevaci\'on y un margen de 8\,dp\\
+Tarjeta de imagen (Detalle) & 16\,dp & 8\,dp & Va \emph{encima} de la tarjeta de datos\\
+Tarjeta de datos (Detalle) & 16\,dp & 4\,dp & Se solapa por debajo de la de la imagen\\
+Bot\'on Guardar/Editar & 24\,dp (c\'apsula) & 0--2\,dp & Rosa, texto blanco bold cuando est\'a habilitado\\
+Campo de texto & 8\,dp & 0 & \code{OutlinedBox}, borde gris 1\,dp y morado 2\,dp con foco\\
+FAB & 16\,dp & 6\,dp & 56\,dp; crear (abajo-der), borrar (abajo-izq), editar (abajo-der)\\
+Avatar circular & 50\,\% & 0 & 52\,dp, \code{circleCrop}\\
+\end{xltabular}
+\end{center}
+
+\subsection{Fuentes}
+
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Marca ``DogApp'':} fuente externa redondeada y muy bold, como
+        \emph{Baloo 2 ExtraBold}, \emph{Fredoka One} o \emph{Nunito ExtraBold}.
+        Se descarga el \code{.ttf}, se copia en \code{res/font/dogapp\_brand.\allowbreak{}ttf}
+        y se usa con \code{android:\allowbreak{}fontFamily=\allowbreak{}"@font/\allowbreak{}dogapp\_brand"}. Cumple el
+        criterio ``no olvide usar fuentes externas que imiten ese estilo''.
+  \item \textbf{T\'itulos de pantalla y contenido:} la sans del sistema
+        (\code{sans-serif-medium} / \code{sans-serif-black}) es aceptable; si se
+        quiere uniformidad, \emph{Poppins SemiBold} para t\'itulos.
+  \item \textbf{Tama\~nos de referencia:} marca del login 40--44\,sp; subt\'itulo
+        del Home 12\,sp; t\'itulo del header 20--22\,sp; nombre de mascota en el
+        \'item 16\,sp bold; s\'intoma 13--14\,sp; turno \code{\#n} 12\,sp bold.
+\end{itemize}
+
+\subsection{Archivos de recursos a crear}
+
+\begin{verbatim}
+res/
+|-- values/colors.xml            todos los tokens de arriba
+|-- values/dimens.xml            spacing_8, radius_card_16, avatar_52 ...
+|-- values/strings.xml           textos + array de sintomas
+|-- values/themes.xml            Theme.DogApp (NoActionBar)
+|-- font/dogapp_brand.ttf        fuente externa de la marca
+|-- drawable/
+|   |-- bg_header_home.xml       fondo oscuro, esquina inf-izq curva
+|   |-- bg_toolbar_curved.xml    fondo oscuro, esquinas inf. curvadas
+|   |-- bg_button_pink.xml       (o usar MaterialButton con cornerRadius)
+|   |-- ic_back_pink.xml         flecha de atr\'as tintada de rosa
+|   |-- ic_save.xml  ic_edit.xml  ic_delete.xml  ic_add.xml
+|   `-- ic_dog_head.webp         cabeza de perro, fondo transparente
+|-- color/til_stroke.xml         selector morado(focus) / gris(reposo)
+|-- assets/fingerprint.json      animaci\'on Lottie de la huella
+`-- mipmap-*/ic_launcher.*       \'icono propio dogApp (adaptive icon)
+\end{verbatim}
+
+% ============================ 7. PANTALLAS =================================
+\section{Especificaci\'on pantalla por pantalla}
+\label{sec:pantallas}
+
+Cada subsecci\'on traduce los criterios del enunciado a implementaci\'on concreta.
+La columna ``d\'onde'' es el archivo que el profesor pedir\'a abrir si algo no se
+ve bien.
+
+\subsection{HU 1.0 --- Ventana Login}
+
+\textbf{Acta:} como aplicaci\'on, quiero presentar un sistema de logueo con
+biometr\'ia dactilar para mejorar la experiencia de ingreso. \textbf{Tipo:}
+Fragment de inicio, sin toolbar.
+
+\begin{center}
+\footnotesize
+\begin{xltabular}{\linewidth}{@{}c X X@{}}
+\toprule
+\textbf{C} & \textbf{Qu\'e exige} & \textbf{C\'omo se implementa}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+1 & Fondo gris oscuro, sin toolbar & \code{Theme.DogApp} con \code{windowNoTitle=\allowbreak{}true} y \code{windowActionBar=\allowbreak{}false}; ra\'iz del layout con \code{android:\allowbreak{}background=\allowbreak{}"@color/\allowbreak{}dogapp\_dark"}. Confirmar que el fragment no infla \code{MaterialToolbar}\\
+2 & Cabeza de perro arriba a la derecha, fondo transparente, solo la cabeza, optimizada & \code{ImageView} de un \code{.webp} con alfa recortado a la cabeza; anclado \code{topToTop} + \code{endToEnd} con m\'argen 24\,dp; \code{scaleType=\allowbreak{}"fitCenter"} y \code{layout\_constraintWidth\_percent=\allowbreak{}"0.55"} para que escale en pantallas distintas. Exportar en \code{drawable-xxhdpi} y \code{drawable-xxxhdpi} (o vectorizar)\\
+3 & ``DogApp'' blanco bold, debajo de la imagen, centrado, fuente externa & \code{TextView} con \code{@font/dogapp\_brand}, \code{textColor=\allowbreak{}"@color/\allowbreak{}white"}, \code{textStyle=\allowbreak{}"bold"}, 40--44\,sp; \code{topToBottomOf} la imagen\\
+4 & Imagen din\'amica de huella abajo al centro & \code{LottieAnimationView} con \code{lottie\_fileName=\allowbreak{}"fingerprint.\allowbreak{}json"} desde \code{assets/\allowbreak{}}, \code{autoPlay=\allowbreak{}"true"}, \code{repeatCount=\allowbreak{}"infinite"}; 120--160\,dp, anclada abajo con m\'argen inferior 64\,dp\\
+5 & Al tocar la huella: ventana emergente con t\'itulo, subt\'itulo y ``Cancelar'' & \code{BiometricPrompt}. T\'itulo \code{"Autenticaci\'on con Biometr\'ia"}, subt\'itulo \code{"Ingrese su huella digital"}, \code{setNegativeButtonText(\allowbreak{}"Cancelar")}. El aspecto lo dibuja el sistema y \emph{var\'ia entre dispositivos}: el enunciado lo permite expl\'icitamente\\
+6 & Huella correcta $\to$ HU 2.0; incorrecta $\to$ mensaje y no entra & En \code{onAuthenticationSucceeded}: \code{navigate(\allowbreak{}R.id.action\_login\_to\_home)} con \code{popUpTo=\allowbreak{}login} \code{inclusive=\allowbreak{}true} (para que ``atr\'as'' no vuelva al login). En \code{onAuthenticationError}: \code{Snackbar} con el mensaje del sistema y \emph{ninguna} navegaci\'on\\
+7 & \'Icono propio de la app llamado dogApp & Adaptive icon: \code{mipmap-anydpi-v26/\allowbreak{}ic\_launcher.\allowbreak{}xml} con \code{foreground} (cabeza de perro) + \code{background} de color; \code{ic\_launcher\_round}; \code{android:\allowbreak{}label="dogApp"} en el manifest\\
+\end{xltabular}
+\end{center}
+
+\begin{verbatim}
+Manifest: <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+Gradle:   implementation("androidx.biometric:biometric:1.1.0")
+
+val prompt = BiometricPrompt(requireActivity(),
+    ContextCompat.getMainExecutor(requireContext()),
+    object : BiometricPrompt.AuthenticationCallback() {
+        override fun onAuthenticationSucceeded(
+            result: BiometricPrompt.AuthenticationResult) {
+            findNavController().navigate(R.id.action_login_to_home)
+        }
+        override fun onAuthenticationError(code: Int, msg: CharSequence) {
+            Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
+        }
+    })
+
+val info = BiometricPrompt.PromptInfo.Builder()
+    .setTitle("Autenticacion con Biometria")
+    .setSubtitle("Ingrese su huella digital")
+    .setNegativeButtonText("Cancelar")
+    .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+    .build()
+prompt.authenticate(info)
+\end{verbatim}
+
+\begin{notabox}[Prueba de la huella en el emulador]
+Sin dedo enrolado, el di\'alogo no aparece y parece que ``la biometr\'ia no
+funciona''. En el emulador: \emph{Settings $\to$ Security $\to$ Fingerprint} y
+enrolar un dedo; luego, con la app en el di\'alogo, mandar
+\code{adb -e emu finger touch 1} (o usar \emph{Extended Controls $\to$
+Fingerprint}). Verifica tambi\'en el camino de error (huella no reconocida) y el
+bot\'on Cancelar: los tres son criterios calificables.
+\end{notabox}
+
+\subsection{HU 2.0 --- Home Administrador de Citas}
+
+\textbf{Acta:} como administrador, quiero visualizar las citas creadas para
+gestionar su atenci\'on. \textbf{Tipo:} Fragment con RecyclerView + FAB.
+
+\begin{center}
+\footnotesize
+\begin{xltabular}{\linewidth}{@{}c X X@{}}
+\toprule
+\textbf{C} & \textbf{Qu\'e exige} & \textbf{C\'omo se implementa}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+1 & El bot\'on atr\'as del tel\'efono debe llevar al escritorio, no al login &
+\code{requireActivity(\allowbreak{}).onBackPressedDispatcher.\allowbreak{}addCallback(\allowbreak{}viewLifecycleOwner)\{ requireActivity(\allowbreak{}).finishAffinity(\allowbreak{}) \}}. Adem\'as, el login se elimina del back stack al navegar (ver HU 1.0, criterio 6)\\
+2 & Fondo blanco; header gris oscuro con la esquina inferior izquierda curvada; t\'itulo blanco bold ``Administrador de Citas'' a la izquierda y centrado vertical; a la derecha la imagen del perro con ``DogApp'' debajo & \code{LinearLayout}/\code{ConstraintLayout} con \code{background=\allowbreak{}"@drawable/\allowbreak{}bg\_header\_home"} (shape s\'olido \hex{2E2E33} con \code{bottomLeftRadius=\allowbreak{}48dp} y \code{bottomRightRadius=\allowbreak{}0dp}). Texto en 2 l\'ineas a la izquierda; a la derecha \code{ImageView} de la cabeza + \code{TextView} ``DogApp'' en 12\,sp debajo\\
+3 & \'Items: fondo blanco, bordes redondeados, elevaci\'on; imagen circular de la mascota a la izquierda; nombre y s\'intoma al centro; turno arriba a la derecha & \code{item\_cita.\allowbreak{}xml}: \code{MaterialCardView} (radio 16\,dp, elevaci\'on 4\,dp) con \code{ShapeableImageView} circular 52\,dp, \code{tvNombre} bold 16\,sp + \code{tvSintoma} 13\,sp gris, y \code{tvTurno} con texto \code{"\#"+id} en rosa bold arriba a la derecha\\
+4 & FAB rosado \hex{F05861} abajo a la derecha que lleva a Nueva Cita & \code{FloatingActionButton} con \code{app:backgroundTint=\allowbreak{}"@color/\allowbreak{}dogapp\_pink"}, \code{srcCompat=\allowbreak{}"@drawable/\allowbreak{}ic\_add"}, \code{layout\_gravity=\allowbreak{}"bottom|end"}; \code{setOnClickListener \{ navigate(\allowbreak{}R.id.action\_home\_to\_nueva) \}}\\
+5 & Al tocar un \'item, ir al Detalle de esa cita & \code{adapter.\allowbreak{}setOnItemClick \{ navigate(\allowbreak{}R.id.action\_home\_to\_detalle,\allowbreak{} bundleOf(\allowbreak{}"citaId" to it.\allowbreak{}id)) \}} o Safe Args\\
+6 & La lista sale de Room (SQLite) & \code{viewModel.\allowbreak{}citas.observe(\allowbreak{}viewLifecycleOwner) \{ adapter.\allowbreak{}submitList(\allowbreak{}it) \}} --- \code{LiveData} generado por el DAO\\
+\end{xltabular}
+\end{center}
+
+\begin{techbox}[C\'omo pintar la esquina curvada del header sin pelear con XML]
+Dos caminos v\'alidos: \textbf{(a)} un \code{shape} drawable con
+\code{<corners android:\allowbreak{}bottomLeftRadius=\allowbreak{}"48dp" android:\allowbreak{}bottomRightRadius=\allowbreak{}"0dp"/>}
+y \code{<solid android:\allowbreak{}color="@color/\allowbreak{}dogapp\_dark"/\allowbreak{}>}; \textbf{(b)} un
+\code{MaterialCardView}/\code{ImageView} con
+\code{shapeAppearanceOverlay} usando \code{cornerFamily=\allowbreak{}rounded} y
+\code{cornerSizeBottomLeft=\allowbreak{}48dp}, \code{cornerSizeBottomRight=\allowbreak{}0dp}. La opci\'on
+(b) es la misma que se reutiliza en las toolbars de las HU 3.0, 4.0 y 5.0, as\'i
+que conviene resolverla una vez y reutilizar el estilo.
+\end{techbox}
+
+\subsection{HU 3.0 --- Ventana Nueva Cita}
+
+\textbf{Acta:} como administrador, quiero crear una cita para llevar el registro
+de los pacientes. \textbf{Tipo:} Fragment de formulario, con toolbar personalizada.
+
+\begin{center}
+\footnotesize
+\begin{xltabular}{\linewidth}{@{}c X X@{}}
+\toprule
+\textbf{C} & \textbf{Qu\'e exige} & \textbf{C\'omo se implementa}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+1 & Toolbar oscura con esquinas inferiores curvadas, t\'itulo ``Nueva Cita'' centrado blanco bold, flecha de atr\'as rosada que vuelve al Home & \code{MaterialToolbar} con \code{background=\allowbreak{}"@drawable/\allowbreak{}bg\_toolbar\_curved"}, \code{app:navigationIcon=\allowbreak{}"@drawable/\allowbreak{}ic\_back\_pink"} y \code{app:title} centrado (\code{app:titleCentered=\allowbreak{}"true"} o \code{TextView} centrado). \code{setNavigationOnClickListener \{ findNavController(\allowbreak{}).navigateUp(\allowbreak{}) \}}\\
+2 & Campo ``Nombre de la Mascota'': hint gris, flota al enfocar, borde morado al enfocar, m\'aximo 15 caracteres & \code{TextInputLayout} estilo \code{Widget.\allowbreak{}MaterialComponents.\allowbreak{}TextInputLayout.\allowbreak{}OutlinedBox} + \code{TextInputEditText}, \code{hint="@string/\allowbreak{}nombre\_mascota"}, \code{android:\allowbreak{}maxLength=\allowbreak{}"15"}, \code{app:boxStrokeColor=\allowbreak{}"@color/\allowbreak{}til\_stroke"}. El flotado del hint es nativo del \code{TextInputLayout}\\
+3 & Campo ``Raza'' con \textbf{autocompletado}: al escribir 2 letras aparecen las razas que \emph{comienzan} por ellas, alimentado por la API con Retrofit & \code{MaterialAutoCompleteTextView} dentro de \code{TextInputLayout} (\code{endIconMode=\allowbreak{}"dropdown\_menu"}), \code{android:\allowbreak{}completionThreshold=\allowbreak{}"2"}. El adapter se llena con \code{viewModel.\allowbreak{}razas.observe} y su \code{Filter} usa \code{startsWith(\allowbreak{}prefix,\allowbreak{} ignoreCase=\allowbreak{}true)}\\
+4 & Campo ``Nombre del Propietario'', m\'aximo 30 & Igual que el criterio 2, \code{android:\allowbreak{}maxLength=\allowbreak{}"30"}\\
+5 & Campo ``Tel\'efono'', solo n\'umeros, m\'aximo 10 & \code{android:\allowbreak{}inputType=\allowbreak{}"number"}, \code{android:\allowbreak{}maxLength=\allowbreak{}"10"}, \code{digits=\allowbreak{}"0123456789"}\\
+6 & Lista de s\'intomas con el \'item ``S\'intomas'' por defecto (quemada en la app) & \code{MaterialAutoCompleteTextView} no editable (\code{inputType=\allowbreak{}"none"}, \code{endIconMode=\allowbreak{}"dropdown\_menu"}) con \code{ArrayAdapter} de \code{R.array.sintomas}; el \'indice 0 es ``S\'intomas'' = sin selecci\'on. Los seis valores: Solo duerme, No come, Fractura extremidad, Tiene pulgas, Tiene garrapatas, Bota demasiado pelo\\
+7 & Bot\'on rosado, redondeado, con \'icono a la izquierda, texto ``Guardar Cita''; \textbf{inactivo} mientras falte nombre, raza, propietario o tel\'efono & \code{MaterialButton} con \code{app:cornerRadius=\allowbreak{}"24dp"}, \code{backgroundTint=\allowbreak{}"@color/\allowbreak{}dogapp\_pink"}, \code{app:icon="@drawable/\allowbreak{}ic\_save"}, \code{iconGravity=\allowbreak{}"textStart"}. Estado en \code{doAfterTextChanged}: \code{btn.isEnabled =\allowbreak{} nombre.\allowbreak{}isNotBlank(\allowbreak{}) \&\& raza.\allowbreak{}isNotBlank(\allowbreak{}) \&\& propietario.\allowbreak{}isNotBlank(\allowbreak{}) \&\& telefono.\allowbreak{}isNotBlank(\allowbreak{})}\\
+8 & Si todo est\'a lleno pero no hay s\'intoma: al pulsar, mensaje ``Selecciona un s\'intoma'' & En el \code{onClick}: \code{if (sintomaSeleccionado =\allowbreak{}= null) \{ Snackbar/\allowbreak{}AlertDialog(\allowbreak{}"Selecciona un s\'intoma"); return \}}\\
+9 & El bot\'on se habilita cuando los cuatro campos est\'an llenos y el texto pasa a blanco bold & Adem\'as de \code{isEnabled}, cambiar \code{setTextColor(\allowbreak{}Color.WHITE)} + \code{Typeface.\allowbreak{}BOLD} al habilitar, y \code{alpha=0.5} + color rosado claro mientras est\'e inactivo\\
+10 & Al guardar: insertar en Room y navegar al Home, donde debe verse la cita & \code{viewModel.\allowbreak{}guardar(\allowbreak{}cita)} en \code{viewModelScope}; al terminar (\code{onSuccess}), \code{navigate(\allowbreak{}R.id.action\_nueva\_to\_home)} con \code{popUpTo} para no dejar el formulario en la pila\\
+\end{xltabular}
+\end{center}
+
+\begin{notabox}[El filtro del autocompletado: el error m\'as com\'un del proyecto]
+El \code{ArrayAdapter} por defecto filtra por ``contiene'' y respeta el orden de
+la lista, as\'i que escribir ``pu'' puede devolver ``bullpug'' antes que ``pug''.
+Para cumplir ``que comiencen por esas letras'' hay que sobrescribir el
+\code{Filter} con la l\'ogica que sigue.
+\end{notabox}
+
+\begin{verbatim}
+override fun getFilter(): Filter = object : Filter() {
+    override fun performFiltering(prefix: CharSequence?): FilterResults {
+        val p = prefix?.toString()?.trim()?.lowercase().orEmpty()
+        val out = if (p.length < 2) emptyList()
+                  else razas.filter { it.lowercase().startsWith(p) }
+        return FilterResults().apply { values = out; count = out.size }
+    }
+    override fun publishResults(c: CharSequence?, r: FilterResults?) {
+        clear()
+        addAll(r?.values as? List<String> ?: emptyList())
+        notifyDataSetChanged()
+    }
+}
+\end{verbatim}
+
+\noindent Y no olvides que \code{performFiltering} corre en hilo de fondo: no
+llames a la API ah\'i. Pide la lista una sola vez y filtra en memoria.
+
+\subsection{HU 4.0 --- Ventana Detalle de la Cita}
+
+\textbf{Acta:} como administrador, quiero ver el detalle de un paciente para
+decidir. \textbf{Tipo:} Fragment de solo lectura + dos FAB.
+
+\begin{center}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}c X X@{}}
+\toprule
+\textbf{C} & \textbf{Qu\'e exige} & \textbf{C\'omo se implementa}\\
+\midrule
+1 & Toolbar oscura curvada; el t\'itulo es el \textbf{nombre de la mascota}; flecha rosada que vuelve al Home & Reutilizar el estilo de la HU 3.0; \code{toolbar.\allowbreak{}title =\allowbreak{} cita.nombreMascota} dentro del \code{observe}. Como el t\'itulo depende de datos, hay que asignarlo despu\'es de cargar el \code{LiveData}\\
+2 & Card con la foto de la mascota, con margen, \textbf{por encima} de otra tarjeta blanca & \code{MaterialCardView} (radio 16\,dp, elevaci\'on 8\,dp) con \code{ShapeableImageView} (\code{scaleType=\allowbreak{}"centerCrop"}) y \code{layout\_margin=\allowbreak{}"20dp"}. Para superponer, \code{ConstraintLayout} con la segunda card anclada debajo y un \code{layout\_marginTop=\allowbreak{}"-32dp"} en la card de informaci\'on\\
+3 & Segunda card: turno arriba a la derecha, raza en negro bold, s\'intoma, l\'inea delgada rosada, ``Propietario'' + nombre, ``Tel\'efono'' + n\'umero & Orden vertical: \code{tvTurno} (\code{"\#"+id}, rosa, bold, \code{end|top}), \code{tvRaza} (negro bold, centrado), \code{tvSintoma}, \code{View} de 1\,dp con \code{background=\allowbreak{}"@color/\allowbreak{}dogapp\_pink"} y ancho 90\,\%, \code{tvPropietario}, \code{tvTelefono}\\
+4 & FAB rosado con \'icono de eliminaci\'on, abajo a la \textbf{izquierda}: borra en Room y vuelve al Home sin la cita & \code{FloatingActionButton} \code{layout\_gravity=\allowbreak{}"bottom|start"}, \code{backgroundTint=\allowbreak{}"@color/\allowbreak{}dogapp\_pink"}, \code{ic\_delete}. \code{viewModel.\allowbreak{}eliminar(\allowbreak{}cita); findNavController(\allowbreak{}).navigate(\allowbreak{}R.id.action\_detalle\_to\_home)}. No se exige confirmaci\'on\\
+5 & FAB azul oscuro con \'icono de edici\'on, abajo a la \textbf{derecha}: lleva a Editar Cita & \code{FloatingActionButton} \code{layout\_gravity=\allowbreak{}"bottom|end"}, \code{backgroundTint=\allowbreak{}"@color/\allowbreak{}dogapp\_edit\_blue"}, \code{ic\_edit}; navega pasando el mismo \code{citaId}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{verbatim}
+// el detalle se alimenta del id que llega por navegacion
+private val citaId: Int by lazy { requireArguments().getInt("citaId") }
+viewModel.cargar(citaId)
+viewModel.cita.observe(viewLifecycleOwner) { cita ->
+    cita ?: run { findNavController().navigateUp(); return@observe }
+    toolbar.title = cita.nombreMascota
+    tvRaza.text = cita.raza
+    tvSintoma.text = cita.sintoma
+    tvTurno.text = "#${cita.id}"
+    tvPropietario.text = "Propietario: ${cita.propietario}"
+    tvTelefono.text = "Telefono: ${cita.telefono}"
+    Glide.with(this).load(cita.imagenUrl).circleCrop().into(imgMascota)
+}
+\end{verbatim}
+
+\begin{notabox}[La superposici\'on de tarjetas es el criterio m\'as f\'acil de perder]
+El texto dice ``este contenedor est\'a por encima de otra tarjeta de color
+blanco''. Dos \code{MaterialCardView} apiladas sin m\'as no lo logran: la de la
+imagen debe tener mayor \code{elevation} \textbf{y} solaparse f\'isicamente con la
+de abajo (margen superior negativo, o anclando la de arriba con
+\code{layout\_marginBottom=\allowbreak{}"-32dp"}). Verif\'icalo en pantalla: si se ven dos
+rect\'angulos separados con un hueco, el criterio no est\'a cumplido.
+\end{notabox}
+
+\subsection{HU 5.0 --- Ventana Editar Cita}
+
+\textbf{Acta:} como administrador, quiero modificar datos de la mascota para
+mantener actualizada la agenda. \textbf{Tipo:} mismo formulario de la HU 3.0,
+precargado.
+
+\begin{center}
+\footnotesize
+\begin{xltabular}{\linewidth}{@{}c X X@{}}
+\toprule
+\textbf{C} & \textbf{Qu\'e exige} & \textbf{C\'omo se implementa}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+1 & Toolbar ``Editar Cita'', flecha rosada que vuelve al \textbf{Detalle} (mostrando la mascota editada) & \code{navigateUp(\allowbreak{})} (no navegar al Home). El detalle se refresca solo porque observa \code{LiveData} de Room\\
+2 & Nombre de la mascota, m\'aximo 15, \textbf{precargado} desde el detalle & \code{TextInputEditText.\allowbreak{}setText(\allowbreak{}cita.nombreMascota)} en el \code{observe}; no volver a pedir el id al usuario: llega por argumento de navegaci\'on\\
+3 & Raza con el mismo autocompletado por API (2 letras, prefijo) & Reutilizar el adapter de la HU 3.0 (mismo c\'odigo, mismo ViewModel de formulario)\\
+4 & Nombre del propietario, m\'aximo 30, precargado & \code{setText(\allowbreak{}cita.propietario)}\\
+5 & Tel\'efono, solo n\'umeros, m\'aximo 10, precargado & \code{setText(\allowbreak{}cita.telefono)}\\
+6 & Bot\'on rosado redondeado con \'icono y texto ``Editar Cita''; inactivo si falta alg\'un campo & Misma l\'ogica de habilitaci\'on que la HU 3.0, con \code{app:icon="@drawable/\allowbreak{}ic\_edit"}\\
+7 & Al habilitarse, el texto pasa a blanco bold & Igual que la HU 3.0, criterio 9\\
+8 & Al guardar: \code{update} en Room y navegar al Home con la cita modificada & \code{viewModel.\allowbreak{}actualizar(\allowbreak{}cita)} y \code{navigate(\allowbreak{}R.id.action\_editar\_to\_home)}. Si cambiaste la raza, \textbf{regenera la foto} con \code{fotoDeRaza(\allowbreak{}nuevaRaza)} antes del \code{update} (ver el ``Importante'' del enunciado)\\
+\end{xltabular}
+\end{center}
+
+\begin{notabox}[Lo que el ``Importante'' de la HU 5.0 obliga a hacer]
+``Si al momento de editar la cita la raza escogida fue Akita, la imagen debe
+mostrar un perro alusivo a esa raza''. Es decir: cambiar la raza \textbf{tiene}
+que cambiar la foto del \'item en el Home. Si guardas la misma \code{imagenUrl}
+vieja, ese requisito queda incumplido y se nota en la demo (el profesor edita la
+raza y compara la foto). Regla: \emph{cada guardado con raza distinta pide una
+URL nueva a la API}.
+\end{notabox}
+
+% ============================ 8. NAVEGACION ================================
+\section{Navegaci\'on: un solo Activity, cinco Fragments}
+\label{sec:nav}
+
+El item ``Uso de Fragment'' y el item ``Uso de Navigation'' se califican juntos y
+son de los m\'as r\'apidos de verificar: si las pantallas son Activities, o si se
+navega con \code{Intent} y \code{startActivity}, se pierden dos items del 60\,\%.
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l l l X@{}}
+\toprule
+\textbf{Desde} & \textbf{Hacia} & \textbf{Acci\'on} & \textbf{Detalle}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\code{loginFragment} & \code{homeFragment} & \code{action\_login\_to\_home} & Solo despu\'es de biometr\'ia exitosa; \code{popUpTo=\allowbreak{}loginFragment}, \code{popUpToInclusive=\allowbreak{}true}\\
+\code{homeFragment} & \code{nuevaCitaFragment} & \code{action\_home\_to\_nueva} & FAB rosado\\
+\code{homeFragment} & \code{detalleFragment} & \code{action\_home\_to\_detalle} & \code{argument citaId}, tipo \code{integer}\\
+\code{nuevaCitaFragment} & \code{homeFragment} & \code{action\_nueva\_to\_home} & \code{popUpTo=\allowbreak{}home} (no deja el formulario en la pila)\\
+\code{detalleFragment} & \code{homeFragment} & \code{action\_detalle\_to\_home} & Al eliminar, o con la flecha de atr\'as\\
+\code{detalleFragment} & \code{editarFragment} & \code{action\_detalle\_to\_editar} & \code{argument citaId}\\
+\code{editarFragment} & \code{homeFragment} & \code{action\_editar\_to\_home} & Tras \code{update} exitoso\\
+\code{editarFragment} & \code{detalleFragment} & (bot\'on atr\'as) & \code{navigateUp(\allowbreak{})} al detalle\\
+\end{xltabular}
+\end{center}
+
+\begin{verbatim}
+<fragment android:id="@+id/loginFragment"
+    android:name="com.univalle.dogapp.view.login.LoginFragment"
+    android:label="Login">
+    <action android:id="@+id/action_login_to_home"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/loginFragment" app:popUpToInclusive="true"/>
+</fragment>
+
+<fragment android:id="@+id/detalleFragment"
+    android:name="com.univalle.dogapp.view.detalle.DetalleFragment">
+    <argument android:name="citaId" app:argType="integer"/>
+    <action android:id="@+id/action_detalle_to_editar"
+        app:destination="@id/editarFragment"/>
+</fragment>
+\end{verbatim}
+
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+  \item \code{MainActivity} contiene \code{NavHostFragment} con
+        \code{app:defaultNavHost=\allowbreak{}"true"} y \code{app:navGraph=\allowbreak{}"@navigation/\allowbreak{}nav\_graph"}.
+  \item \code{startDestination} = \code{loginFragment}.
+  \item Las flechas de las toolbars llaman a \code{navigateUp(\allowbreak{})} o a la acci\'on
+        expl\'icita; nunca \code{startActivity}.
+  \item Opcional pero recomendable: Safe Args
+        (\code{androidx.\allowbreak{}navigation.\allowbreak{}safeargs.\allowbreak{}kotlin}) para no escribir el nombre
+        del argumento como texto.
+\end{itemize}
+
+% ============================ 9. SPRINT ====================================
+\section{Jira y GitHub: el 20\,\% que suele perderse por descuido}
+
+Es frecuente que un equipo tenga la app funcionando y aun as\'i saque 4,0 porque
+no puede demostrar gesti\'on. El RA-3 vale tanto como la interfaz completa, y se
+construye \emph{durante} el sprint, no la noche anterior.
+
+\subsection{Jira: c\'omo reflejar los criterios}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Elemento} & \textbf{Qu\'e crear}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Proyecto & Tipo Scrum, nombre \code{DogApp} o el nombre del equipo\\
+\'Epica & \code{DogApp - Sprint 1}. Agrupa las 5 historias\\
+Historias & 5 issues tipo \emph{Historia}: \code{HU 1.0 Ventana Login}, \code{HU 2.0 Home}, \code{HU 3.0 Nueva Cita}, \code{HU 4.0 Detalle}, \code{HU 5.0 Editar}. En la descripci\'on, el acta completa y los criterios de aceptaci\'on\\
+Criterios & Los criterios del enunciado como \emph{criterios de aceptaci\'on} (checklist) o como subtareas: es lo que el docente revisa\\
+Subtareas & Al menos: \code{UI/XML}, \code{ViewModel + LiveData}, \code{Room}, \code{Retrofit}, \code{Navegaci\'on}, \code{QA}. Asignadas a personas distintas\\
+Tablero & Columnas \textbf{Por hacer}, \textbf{En curso}, \textbf{Hecho}, con WIP razonable y tarjetas movi\'endose a diario\\
+Responsables & Cada historia y subtarea con asignado real (es la evidencia para la nota individual)\\
+Evidencia & Capturas del tablero en el PDF de entrega y en el README\\
+\end{xltabular}
+\end{center}
+
+\begin{notabox}[La prueba que hace el docente]
+Abre Jira y mira el \emph{historial de actividad}. Si las 5 historias se movieron
+el mismo d\'ia, o si todo lo hizo una sola cuenta, la gesti\'on queda en evidencia
+como simulada. Mueve las tarjetas el mismo d\'ia que trabajas y comenta el avance
+en la historia (``se implement\'o el autocompletado, falta el filtro por
+prefijo''). Eso es exactamente lo que dice la r\'ubrica: ``que le permita construir
+aplicaciones de manera colaborativa''.
+\end{notabox}
+
+\subsection{GitHub: reglas del repositorio}
+
+\begin{itemize}[leftmargin=1.4em,itemsep=3pt]
+  \item \textbf{Nombre:} igual al nombre del equipo (\code{equipoUno},
+        \code{equipoDos}, \ldots). El enunciado lo exige dos veces (repositorio y
+        archivo PDF).
+  \item \textbf{Ramas:} \code{main} (lo entregable) + \code{develop} +
+        \code{feature/\allowbreak{}hu1-login}, \code{feature/\allowbreak{}hu2-home},
+        \code{feature/\allowbreak{}hu3-nueva}, \code{feature/\allowbreak{}hu4-detalle},
+        \code{feature/\allowbreak{}hu5-editar}. Una rama por historia y Pull Request hacia
+        \code{develop}.
+  \item \textbf{Commits:} convencionales y peque\~nos
+        (\code{feat(login):\allowbreak{} biometria con BiometricPrompt},
+        \code{fix(home): refrescar lista al eliminar}). Que cada integrante
+        commitee con su \textbf{correo de GitHub} configurado: los commits sin
+        autor identificable no cuentan como evidencia individual.
+  \item \textbf{Pull Requests:} uno por HU, con al menos una revisi\'on de otro
+        integrante (\code{Approve}). Esa interacci\'on es la ``evidencia del
+        trabajo en equipo''.
+  \item \code{.gitignore}: \code{.idea/}, \code{build/}, \code{local.properties},
+        \code{*.iml}, \code{.gradle/\allowbreak{}}. \textbf{No} subir \code{local.properties}
+        (contiene la ruta del SDK).
+  \item \textbf{README.md}: integrantes, qu\'e hace la app, c\'omo compilarla,
+        capturas de las 5 pantallas, diagrama de paquetes MVVM, endpoints
+        usados, decisiones t\'ecnicas (incluido el tema del endpoint de la foto
+        por raza) y enlaces a Jira.
+  \item \textbf{Tag} \code{v1.0-sprint1} en el commit de entrega.
+  \item \textbf{Congelar el repositorio} antes del 25 de noviembre, 6:30 p.m.:
+        cualquier commit posterior cuesta 0,2.
+\end{itemize}
+
+% ============================ 10. PLAN =====================================
+\section{Plan de ejecuci\'on del sprint}
+
+El sprint va del 11 al 25 de noviembre de 2026, con monitor\'ia el 18. Este orden
+es el que menos retrabajo genera: primero el esqueleto que se compila y navega,
+despu\'es los datos, despu\'es la red y al final el pulido visual.
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l l X l@{}}
+\toprule
+\textbf{Fase} & \textbf{Fechas} & \textbf{Entregable verificable} & \textbf{Riesgo}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+0. Arranque & 11--12 nov & Repo \code{equipoX} creado, Jira con \'epica + 5 historias + subtareas, \code{MainActivity} + \code{NavHostFragment} + 5 Fragments vac\'ios que navegan, temas y colores en \code{values} & Bajo\\
+1. Login + marca & 13--14 nov & HU 1.0 completa: fondo, cabeza de perro, fuente, Lottie, biometr\'ia, navegaci\'on con \code{popUpTo}, \'icono de app & Medio (biometr\'ia en emulador)\\
+2. Room + Home & 15--17 nov & Entidad, DAO, DB, Repository, ViewModel; Home con RecyclerView leyendo de Room; alta manual de prueba; \textbf{back del Home cierra la app} & Medio\\
+3. Formularios & 15--18 nov & HU 3.0 y HU 5.0 con validaciones, m\'aximos, \code{TextInputLayout}, bot\'on que se habilita, mensaje ``Selecciona un s\'intoma'', insertar y actualizar & Alto (estados del bot\'on)\\
+4. Monitor\'ia & 18 nov & Demo parcial: login $\to$ home $\to$ nueva $\to$ home. Anotar correcciones del docente & ---\\
+5. Retrofit & 19--20 nov & Lista de razas, autocompletado por prefijo con umbral 2, foto por raza con Glide, fallback sin red & Alto (filtro)\\
+6. Detalle & 21 nov & HU 4.0 con tarjetas superpuestas, turno, divisor rosado, eliminar y editar & Medio\\
+7. Integraci\'on & 22--23 nov & Recorrido completo de las 5 HU, regeneraci\'on de foto al editar raza, tolerancia a fallos de red & Alto\\
+8. QA + pulido & 23--24 nov & Checklist de la secci\'on~\ref{sec:checklist} al 100\,\%, README, capturas, PDF de entrega & Medio\\
+9. Entrega & 25 nov & PDF \code{equipoX.\allowbreak{}pdf} subido por un solo integrante, tag, repositorio congelado antes de las 6:30 p.m. & ---\\
+\end{xltabular}
+\end{center}
+
+\begin{techbox}[Reparto sugerido para que todos tengan nota individual]
+Con 4 integrantes: \textbf{A} arquitectura + Room + Repository + ViewModel del
+Home; \textbf{B} Login + biometr\'ia + sistema de dise\~no (colores, fuentes,
+formas, \'icono); \textbf{C} Retrofit + autocompletado + Glide + fallback;
+\textbf{D} Detalle + Editar + QA y Jira. Todos commitean, todos mueven tarjetas y
+todos pueden explicar la capa que hicieron. Si son 3 o 5, se reparte igual: nadie
+queda sin capa propia.
+\end{techbox}
+
+% ============================ 11. ERRORES ==================================
+\section{Errores que cuestan nota (y su ant\'idoto)}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}X X@{}}
+\toprule
+\textbf{Error} & \textbf{Ant\'idoto}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Cinco Activities en lugar de cinco Fragments: se pierden los items de Fragment y Navigation & \code{MainActivity} \'unica + \code{NavHostFragment} + \code{nav\_graph}. Antes de escribir la primera pantalla, verificar que navega\\
+Toda la l\'ogica en el Fragment: se pierde el item MVVM & ViewModel por pantalla; el Fragment solo observa y pinta\\
+DAO que devuelve \code{List} en vez de \code{LiveData}: la lista no se refresca al guardar o borrar & \code{LiveData<List<CitaEntity>>} en \code{observarTodas(\allowbreak{})}\\
+Llamar a la API en cada tecla del autocompletado & Una carga de razas en \code{init}, filtrado en memoria\\
+Mostrar una foto aleatoria aunque se eligi\'o una raza & \code{/breed/\{raza\}/\allowbreak{}images/\allowbreak{}random} y regenerar al editar la raza\\
+Guardar el tel\'efono como n\'umero & Guardar como \code{String} con \code{inputType=\allowbreak{}"number"}\\
+El bot\'on Guardar arranca habilitado o nunca se habilita & Estado calculado con \code{doAfterTextChanged} sobre los cuatro campos + \code{isEnabled}\\
+El bot\'on habilitado no cambia el texto a blanco bold & \code{setTextColor} + \code{Typeface.\allowbreak{}BOLD} al habilitar (criterio 9 de HU 3.0 y criterio 7 de HU 5.0)\\
+No hay mensaje ``Selecciona un s\'intoma'' & Validar el \'indice 0 del dropdown antes de guardar\\
+El back del Home devuelve al Login & \code{finishAffinity(\allowbreak{})} en el dispatcher + \code{popUpTo} inclusive al entrar al Home\\
+Tarjetas del detalle separadas en vez de superpuestas & Margen negativo o anclaje con solapamiento; comprobar en pantalla\\
+Toolbars con t\'itulo alineado a la izquierda & T\'itulo centrado seg\'un los pantallazos (Nueva Cita y Detalle)\\
+Se olvida el \'icono propio de la app & Adaptive icon \code{ic\_launcher} + \code{android:\allowbreak{}label="dogApp"}\\
+La app se cae sin internet & \code{runCatching} + imagen de marcador; el CRUD local debe funcionar offline\\
+Falta la animaci\'on Lottie porque el JSON no est\'a en \code{assets} & Copiar el \code{.json} a \code{app/src/main/assets/\allowbreak{}} y usar \code{lottie\_fileName}\\
+Commits todos de la misma persona & Reparto por capas + verificar \code{git shortlog -sne} antes de entregar\\
+\end{xltabular}
+\end{center}
+
+% ============================ 12. CHECKLIST ================================
+\section{Checklist de aceptaci\'on}
+\label{sec:checklist}
+
+Marcar cada casilla s\'olo despu\'es de verlo en el dispositivo. Es la lista que
+se usa como guion de la sustentaci\'on: cada l\'inea es un criterio calificable.
+
+\newpage
+
+\subsection{Arquitectura (RA-1, 60\,\%)}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}c X c@{}}
+\toprule
+& \textbf{Verificaci\'on} & \textbf{Hecho}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+1 & Existen los paquetes \code{model}, \code{view}, \code{viewmodel}, \code{repository}, \code{data} & $\square$\\
+2 & Ning\'un Fragment importa \code{CitaDao} ni \code{DogApiService} & $\square$\\
+3 & Ning\'un ViewModel recibe \code{Context} & $\square$\\
+4 & El Repository centraliza Room y Retrofit & $\square$\\
+5 & La lista del Home se actualiza sola al insertar, editar y borrar & $\square$\\
+6 & Los datos sobreviven al cerrar y reabrir la app (persistencia real) & $\square$\\
+7 & Room con \code{@Entity}, \code{@Dao}, \code{@Database} & $\square$\\
+8 & Retrofit con \code{@GET}, \code{@Path}, Gson y \code{suspend} & $\square$\\
+9 & Las 5 pantallas son Fragments dentro de un \code{nav\_graph} & $\square$\\
+10 & \code{citaId} viaja por argumento de navegaci\'on & $\square$\\
+11 & Corrutinas en todas las operaciones de datos & $\square$\\
+\end{xltabular}
+\end{center}
+
+\subsection{Interfaz (RA-2, 20\,\%)}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}c X c@{}}
+\toprule
+& \textbf{Verificaci\'on} & \textbf{Hecho}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+12 & Login sin toolbar, fondo \hex{2E2E33}, cabeza de perro con transparencia arriba a la derecha & $\square$\\
+13 & ``DogApp'' blanco bold, centrado, con fuente externa & $\square$\\
+14 & Huella Lottie animada abajo al centro & $\square$\\
+15 & Di\'alogo biom\'etrico con t\'itulo, subt\'itulo y Cancelar & $\square$\\
+16 & Home con header oscuro, esquina inferior izquierda curvada, t\'itulo y logo & $\square$\\
+17 & \'Items blancos redondeados con elevaci\'on, avatar circular, nombre, s\'intoma y turno \code{\#n} & $\square$\\
+18 & FAB rosado de crear abajo a la derecha & $\square$\\
+19 & Toolbars oscuras con esquinas inferiores curvadas y flecha rosada & $\square$\\
+20 & Campos con hint que flota, borde morado con foco, m\'aximos 15/30/10 & $\square$\\
+21 & Lista de s\'intomas con ``S\'intomas'' por defecto & $\square$\\
+22 & Bot\'on rosado redondeado con \'icono, inactivo hasta completar, blanco bold al habilitarse & $\square$\\
+23 & Detalle con foto superpuesta sobre la tarjeta de datos & $\square$\\
+24 & Detalle con turno, raza bold, s\'intoma, l\'inea rosada, propietario y tel\'efono & $\square$\\
+25 & FAB de eliminar rosado a la izquierda y de editar azul oscuro a la derecha & $\square$\\
+26 & Formulario de edici\'on precargado con los datos del detalle & $\square$\\
+27 & \'Icono de la app propio (\code{dogApp}) & $\square$\\
+\end{xltabular}
+\end{center}
+\newpage
+
+\subsection{Funcionamiento y gesti\'on (RA-1 funcional + RA-3)}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}c X c@{}}
+\toprule
+& \textbf{Verificaci\'on} & \textbf{Hecho}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+28 & Huella correcta entra al Home; huella fallida muestra error y no entra & $\square$\\
+29 & Cancelar sale del di\'alogo y permanece en el login & $\square$\\
+30 & El back del Home lleva al escritorio, no al login & $\square$\\
+31 & Guardar sin s\'intoma muestra ``Selecciona un s\'intoma'' y no guarda & $\square$\\
+32 & Guardar navega al Home y la cita aparece con su turno y su foto de raza & $\square$\\
+33 & Editar cambia los datos y la foto si cambia la raza & $\square$\\
+34 & Eliminar borra de Room y la cita desaparece del Home & $\square$\\
+35 & Con el m\'ovil en modo avi\'on la app no se cae y permite crear citas & $\square$\\
+36 & Jira: 5 historias con criterios, subtareas, responsables y movimientos durante el sprint & $\square$\\
+37 & GitHub: repo con el nombre del equipo, ramas por HU, PRs revisados, commits de todos & $\square$\\
+38 & README con integrantes, capturas, arquitectura y enlaces & $\square$\\
+39 & PDF \code{equipoX.\allowbreak{}pdf} con nombres, apellidos, enlace al repo y a Jira & $\square$\\
+40 & Repositorio congelado antes de las 6:30 p.m. del 25 de noviembre & $\square$\\
+\end{xltabular}
+\end{center}
+
+% ============================ 13. ENTREGA ==================================
+\section{Entrega y sustentaci\'on}
+
+\begin{center}
+\small
+\begin{xltabular}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{Requisito} & \textbf{Detalle del enunciado}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+C\'amara & Todos los integrantes con c\'amara encendida durante la sustentaci\'on. Penalizaci\'on de 0,5\\
+Originalidad & Cualquier indicio de copia se penaliza seg\'un los estatutos de la Universidad\\
+Formato & Presentaci\'on en equipo, no individual\\
+Puntualidad & Hora de inicio: 6:30 p.m.\\
+Herramientas & Cada integrante con repositorio, Jira, Android Studio abierto y dispositivo o emulador listo para mostrar la app\\
+Subida del PDF & Un solo integrante sube el PDF; el archivo se llama como el equipo (\code{equipoUno.\allowbreak{}pdf})\\
+Contenido del PDF & Nombres y apellidos de los integrantes + enlace al repositorio + enlace a Jira\\
+Repositorio & Se llama como el equipo (\code{equipoUno})\\
+Commits & Ning\'un commit despu\'es de la fecha y hora de entrega. Penalizaci\'on de 0,2\\
+\end{xltabular}
+\end{center}
+
+\subsection{Guion sugerido de sustentaci\'on (10--12 minutos)}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+  \item \textbf{(30 s)} Abrir Jira y mostrar el tablero con las columnas y las 5
+        historias; abrir GitHub y mostrar la pesta\~na de commits y PRs.
+  \item \textbf{(2 min)} Login: marca, Lottie, toque, di\'alogo biom\'etrico,
+        huella correcta $\to$ Home. Repetir mostrando \emph{Cancelar} y una
+        huella fallida.
+  \item \textbf{(1 min)} Home: header, \'items con foto de la raza y turno.
+        Pulsar atr\'as del tel\'efono y mostrar que sale al escritorio.
+  \item \textbf{(2 min)} Nueva Cita: mostrar el bot\'on inactivo, llenar los
+        cuatro campos, mostrar el autocompletado con dos letras, dejar el
+        s\'intoma vac\'io y provocar ``Selecciona un s\'intoma'', luego guardar y
+        ver la cita en el Home.
+  \item \textbf{(1,5 min)} Detalle: tarjetas superpuestas y todos los datos.
+        Editar: cambiar la raza, guardar y volver a mostrar el Home con la foto
+        nueva.
+  \item \textbf{(1 min)} Detalle $\to$ eliminar $\to$ Home sin la cita.
+  \item \textbf{(2 min)} C\'odigo: abrir el \'arbol de paquetes y mostrar
+        Fragment $\to$ ViewModel $\to$ Repository $\to$ DAO/Retrofit. Mostrar
+        \code{observarTodas(\allowbreak{})} devolviendo \code{LiveData} y la interfaz de
+        Retrofit.
+  \item \textbf{(1 min)} Cierre: decisiones t\'ecnicas (endpoint de foto por
+        raza, manejo de red ca\'ida, LiveData como fuente \'unica) y reparto de
+        trabajo.
+\end{enumerate}
+
+\begin{notabox}[Antes de encender la c\^amara]
+Compilar en \emph{Release} o al menos en \emph{Debug} limpio, con el emulador ya
+encendido y la huella enrolada, la app instalada en el dispositivo y el
+repositorio descargado en el port\'atil de cada integrante. La sustentaci\'on
+tiene un tiempo fijo: cada minuto gastado en resolver un \code{Gradle sync}
+fallido es un criterio que no se alcanza a mostrar.
+\end{notabox}
+
+% ============================ ANEXO A ======================================
+\newpage
+\section{Anexo A: dependencias de \code{build.gradle.\allowbreak{}kts}}
+
+Todas estas l\'ineas se a\~naden al m\'odulo \code{app}, partiendo de la
+configuraci\'on de la clase 8 (\code{compileSdk =\allowbreak{} 34}, \code{minSdk =\allowbreak{} 24}, KSP para
+Room).
+
+\begin{verbatim}
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("androidx.navigation.safeargs.kotlin")   // opcional pero recomendado
+}
+
+android {
+    namespace = "com.univalle.dogapp"
+    compileSdk = 34
+    buildFeatures { viewBinding = true }        // o dataBinding = true
+}
+
+dependencies {
+    // base
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    // MVVM
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // Imagenes y animacion
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.airbnb.android:lottie:6.3.0")
+
+    // Biometria
+    implementation("androidx.biometric:biometric:1.1.0")
+
+    // RecyclerView y CardView
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.cardview:cardview:1.0.0")
+
+    // Corrutinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+}
+\end{verbatim}
+
+\section{Anexo B: c\'odigo m\'inimo de las tres piezas delicadas}
+
+\subsection*{B.1 Back del Home al escritorio}
+
+\begin{verbatim}
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+        requireActivity().finishAffinity()   // cierra la tarea -> escritorio
+    }
+}
+\end{verbatim}
+
+\subsection*{B.2 Boton que se habilita solo y cambia a blanco bold}
+
+\begin{verbatim}
+private fun vigilarCampos() {
+    val revisar = {
+        val listo = etNombre.text.isNullOrBlank().not() &&
+                    etRaza.text.isNullOrBlank().not() &&
+                    etPropietario.text.isNullOrBlank().not() &&
+                    etTelefono.text.isNullOrBlank().not()
+        btnGuardar.isEnabled = listo
+        btnGuardar.setTextColor(
+            if (listo) Color.WHITE else Color.parseColor("#F5A9AD"))
+        btnGuardar.setTypeface(null, if (listo) Typeface.BOLD else Typeface.NORMAL)
+        btnGuardar.alpha = if (listo) 1f else 0.6f
+    }
+    listOf(etNombre, etRaza, etPropietario, etTelefono).forEach { campo ->
+        campo.doAfterTextChanged { revisar() }
+    }
+    revisar()
+}
+\end{verbatim}
+
+\subsection*{B.3 Guardar con foto por raza y navegar}
+
+\begin{verbatim}
+btnGuardar.setOnClickListener {
+    val sintoma = dropdownSintomas.text.toString()
+    if (sintoma == "Sintomas" || sintoma.isBlank()) {
+        Snackbar.make(binding.root, "Selecciona un sintoma",
+            Snackbar.LENGTH_LONG).show()
+        return@setOnClickListener
+    }
+    viewModel.guardar(
+        nombre = etNombre.text.toString().trim(),
+        raza   = etRaza.text.toString().trim(),
+        dueno  = etPropietario.text.toString().trim(),
+        tel    = etTelefono.text.toString().trim(),
+        sintoma = sintoma
+    )
+}
+
+// en el ViewModel
+fun guardar(nombre: String, raza: String, dueno: String,
+            tel: String, sintoma: String) {
+    viewModelScope.launch {
+        val url = repository.fotoDeRaza(raza)          // API, con fallback
+        repository.guardar(CitaEntity(
+            nombreMascota = nombre, raza = raza, propietario = dueno,
+            telefono = tel, sintoma = sintoma, imagenUrl = url,
+            fechaCreacion = System.currentTimeMillis()
+        ))
+        _guardado.emit(true)                           // el Fragment navega
+    }
+}
+\end{verbatim}
+
+\begin{notabox}[Nota final de uso de este documento]
+Este documento no reemplaza el enunciado: lo descompone. Si hay conflicto entre
+un valor de color, un radio o un texto y lo que dice el PDF oficial de las
+Historias de Usuario, \textbf{prevalece el PDF oficial}. Los valores de color y
+medidas aqu\'i son lecturas razonables de los pantallazos, pensadas para
+centralizarse en \code{res/values} y ajustarse una sola vez.
+\end{notabox}
+
+\end{document}

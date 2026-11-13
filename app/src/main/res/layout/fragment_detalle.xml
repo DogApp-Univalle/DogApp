@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HU 4.0: dos tarjetas superpuestas (la de la foto por encima) + FAB eliminar y editar -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".view.detalle.DetalleFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="@drawable/bg_toolbar_curved"
+            app:navigationIcon="@drawable/ic_back_pink"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/DogAppToolbarTitle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_20"
+            android:paddingBottom="96dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardImagen"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/radius_card_16"
+                app:cardElevation="@dimen/elevation_card_2">
+
+                <ImageView
+                    android:id="@+id/ivMascota"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/spacing_16"
+                    android:background="@color/soft_gray"
+                    android:contentDescription="@string/cd_mascota"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_dog_placeholder" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDatos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-32dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/radius_card_16"
+                app:cardElevation="@dimen/elevation_card_1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/spacing_20"
+                    android:paddingTop="44dp"
+                    android:paddingEnd="@dimen/spacing_20"
+                    android:paddingBottom="@dimen/spacing_20">
+
+                    <TextView
+                        android:id="@+id/tvTurno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textColor="@color/dogapp_pink"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="#12" />
+
+                    <TextView
+                        android:id="@+id/tvRaza"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_4"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="Akita" />
+
+                    <TextView
+                        android:id="@+id/tvSintoma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_4"
+                        android:gravity="center"
+                        android:textColor="@color/hint_gray"
+                        android:textSize="14sp"
+                        tools:text="Solo duerme" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/spacing_24"
+                        android:layout_marginTop="@dimen/spacing_16"
+                        android:background="@color/dogapp_pink" />
+
+                    <TextView
+                        android:id="@+id/tvPropietario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_16"
+                        android:textColor="@color/ink"
+                        android:textSize="14sp"
+                        tools:text="Propietario: Juan Pérez" />
+
+                    <TextView
+                        android:id="@+id/tvTelefono"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_8"
+                        android:textColor="@color/ink"
+                        android:textSize="14sp"
+                        tools:text="Teléfono: 3001234567" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEliminar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/spacing_24"
+        android:contentDescription="@string/detalle_eliminar_cita"
+        android:src="@drawable/ic_delete"
+        app:backgroundTint="@color/dogapp_pink"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/spacing_24"
+        android:contentDescription="@string/detalle_editar_cita"
+        android:src="@drawable/ic_edit"
+        app:backgroundTint="@color/dogapp_edit_blue"
+        app:tint="@color/white" />
+
+</FrameLayout>
