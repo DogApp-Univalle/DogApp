@@ -8,12 +8,11 @@ registre y gestione las citas de las mascotas que debe atender.
 
 ## Integrantes
 
-> Completar antes de la entrega (nombre y apellido de cada integrante).
-
-- _(integrante 1)_
-- _(integrante 2)_
-- _(integrante 3)_
-- _(integrante 4)_
+- _Medina Hernán Cod. 2369271_
+- _Santos Sebastian Cod. 2160870_
+- _Trujillo Nicolas Cod. 2360268_
+- _Chicaiza Andres Cod. 2560684_
+- _Agudelo Juan Cod. 2360154_
 
 ## Pantallas (una sola Activity + cinco Fragments)
 
@@ -84,8 +83,7 @@ Abrir el proyecto en Android Studio y ejecutar en un dispositivo o emulador con
 
 ### Decisión técnica sobre la foto de la raza
 
-El enunciado pide `breeds/image/random`, pero ese endpoint devuelve una **raza
-aleatoria**, y el mismo enunciado exige que la imagen corresponda a la raza
+El enunciado pide que la imagen corresponda a la raza
 elegida ("si la raza fue Akita, la imagen debe mostrar un Akita"). Por eso:
 
 1. Se usa `/breed/{raza}/images/random` para cumplir el requisito funcional.
@@ -100,6 +98,22 @@ Room con la tabla `citas`: `id` (turno `#n`, autogenerado), `nombreMascota`,
 
 ## Gestión del proyecto
 
-- Jira: _(enlace pendiente)_
+- Jira: [Proyecto DOG · DogApp](https://hernanchho.atlassian.net/jira/software/projects/DOG/boards/1/backlog)
 - Repositorio: https://github.com/DogApp-Univalle/DogApp
 - Bitácora de construcción: [documentacion/memoria.md](documentacion/memoria.md)
+- Guía del tablero y backlog importable: [documentacion/jira/DogApp-backlog.md](documentacion/jira/DogApp-backlog.md)
+
+## Flujo de ramas
+
+```
+main                    ← lo entregable, se congela el 25 de noviembre
+└── develop             ← integración del sprint (aquí se trabaja)
+    ├── feature/hu1-login
+    ├── feature/hu2-home
+    ├── feature/hu3-nueva
+    ├── feature/hu4-detalle
+    └── feature/hu5-editar
+```
+
+Cada historia se trabaja en su rama y se integra con un **Pull Request hacia `develop`**
+revisado por otro integrante. No se commitea directamente en `main`.
