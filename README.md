@@ -25,7 +25,7 @@ prueba en modo avión.
 
 | Ítem de la rúbrica (RA-1) | Dónde se evidencia |
 |---|---|
-| Arquitectura MVVM con Repository | paquetes `model`, `view`, `viewmodel`, `repository`, `data` |
+| Arquitectura MVVM con Repository | paquetes `model`, `view`, `viewmodel`, `adapter`, `repository`, `data` |
 | Funcionamiento según las HU | las 5 pantallas y sus criterios |
 | SQLite con Room | `data/local` (`CitaEntity`, `CitaDao`, `DogAppDatabase`) |
 | Consumo de API REST | `data/remote` (Retrofit + `dog.ceo`) |
@@ -80,6 +80,7 @@ com.univalle.dogapp
 ├── model/         Cita
 ├── viewmodel/     LoginViewModel · HomeViewModel · FormCitaViewModel · DetalleViewModel
 ├── view/          MainActivity · login/ · home/ · nueva/ · detalle/ · editar/ · form/
+├── adapter/       CitaAdapter · CitaViewHolder · RazasAdapter
 ├── di/            ServiceLocator (inyección sin frameworks)
 └── utils/         Constants · BiometricHelper
 ```

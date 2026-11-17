@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.univalle.dogapp.R
+import com.univalle.dogapp.adapter.RazasAdapter
 import com.univalle.dogapp.viewmodel.FormCitaViewModel
 
 /**

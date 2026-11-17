@@ -414,10 +414,13 @@ com.univalle.dogapp
 |-- view/
 |   |-- MainActivity.kt            host del NavHostFragment
 |   |-- login/LoginFragment.kt
-|   |-- home/HomeFragment.kt  +  CitaAdapter.kt  +  CitaViewHolder.kt
+|   |-- home/HomeFragment.kt
 |   |-- nueva/NuevaCitaFragment.kt
 |   |-- detalle/DetalleFragment.kt
 |   `-- editar/EditarFragment.kt
+|-- adapter/
+|   |-- CitaAdapter.kt             ListAdapter con DiffUtil + CitaViewHolder
+|   `-- RazasAdapter.kt            ArrayAdapter con autocompletado por prefijo
 `-- utils/
     |-- Constants.kt               BASE_URL, nombres de argumentos
     `-- BiometricHelper.kt         envoltorio de BiometricPrompt

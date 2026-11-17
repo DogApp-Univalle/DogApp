@@ -1,4 +1,4 @@
-package com.univalle.dogapp.view.home
+package com.univalle.dogapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

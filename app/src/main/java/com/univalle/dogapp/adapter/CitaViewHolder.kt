@@ -1,4 +1,4 @@
-package com.univalle.dogapp.view.home
+package com.univalle.dogapp.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
