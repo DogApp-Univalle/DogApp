@@ -16,3 +16,4 @@ app/release/
 # Documentos de trabajo interno del equipo: solo en local, no se publican
 /documentacion/jira/
 /documentacion/memoria.md
+/documentacion/Funcionamiento-DogApp.md
